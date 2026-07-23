@@ -614,6 +614,64 @@ section > .wrap {
   max-height: 300px;
   filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.55));
 }
+
+/* Hover magnifier — see static/js/panel-zoom.js.
+   Hovering the panel opens a large zoom pane floating over the page; a marker
+   on the panel itself shows which slice of it the pane is displaying. */
+.module-panel[data-zoom] {
+  position: relative;
+  /* clips the marker's spread shadow to the panel box */
+  overflow: hidden;
+  cursor: crosshair;
+}
+.panel-zoom-hint {
+  margin: 10px 0 0;
+  text-align: center;
+  color: var(--faint);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  transition: color 0.15s ease;
+}
+.module-panel-wrap:hover .panel-zoom-hint {
+  color: var(--muted);
+}
+.panel-zoom-marker {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+  border: 1px solid rgba(255, 106, 43, 0.9);
+  border-radius: 3px;
+  background: rgba(255, 106, 43, 0.14);
+  box-shadow: 0 0 0 9999px rgba(13, 15, 18, 0.45);
+}
+.panel-zoom-pane {
+  position: fixed;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background-color: var(--bg);
+  background-repeat: no-repeat;
+  box-shadow:
+    0 0 0 1px rgba(255, 106, 43, 0.3),
+    0 24px 60px rgba(0, 0, 0, 0.7);
+  image-rendering: -webkit-optimize-contrast;
+}
+.panel-zoom-marker.is-on,
+.panel-zoom-pane.is-on {
+  opacity: 1;
+}
+@media (hover: none), (pointer: coarse) {
+  .module-panel[data-zoom] {
+    cursor: default;
+  }
+  .panel-zoom-hint {
+    display: none;
+  }
+}
 .module-title {
   display: flex;
   align-items: center;
@@ -757,7 +815,7 @@ section > .wrap {
     grid-template-columns: 1fr;
     text-align: center;
   }
-  .module-panel {
+  .module-panel-wrap {
     max-width: 260px;
     margin: 0 auto;
   }

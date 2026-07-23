@@ -7,8 +7,11 @@
     <p class="crumbs"><a href="{{ site.Home.RelPermalink }}#modules">&larr; All modules</a></p>
 
     <header class="module-header">
-      <div class="module-panel">
-        <img src="{{ $panel }}" alt="{{ $m.name }} panel">
+      <div class="module-panel-wrap">
+        <div class="module-panel" data-zoom>
+          <img src="{{ $panel }}" alt="{{ $m.name }} panel">
+        </div>
+        <p class="panel-zoom-hint">Hover the panel to zoom</p>
       </div>
       <div class="module-intro">
         <div class="module-title">
@@ -38,4 +41,5 @@
     </div>
   </div>
 </article>
+<script src="{{ `js/panel-zoom.js` | relURL }}" defer></script>
 {{ end }}

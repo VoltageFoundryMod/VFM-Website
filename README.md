@@ -16,7 +16,8 @@ docs/
 │   ├── modules/single.html   the per-module manual page
 │   ├── partials/         head, header, footer, module card
 │   └── index.html        the landing page
-├── static/              css, logos (panels + manual images are generated)
+├── static/              css, js, logos (panels + manual images are generated)
+│   └── js/panel-zoom.js  hover magnifier for the module-page panel image
 ├── content/_index.md    home page stub
 └── sync_manuals.py      copies each module's manual + images in at build time
 ```
@@ -41,6 +42,15 @@ tagline, series, …).
 - **Company info / hero copy** → [`data/company.yml`](data/company.yml)
 - **The module catalog** → [`data/modules.yml`](data/modules.yml)
 - **Colors / layout** → [`static/css/style.css`](static/css/style.css)
+
+On a module page, hovering the panel image opens a large zoom pane floating over
+the page, showing the slice of the panel under the cursor, while a marker on the
+panel itself highlights which slice that is — silkscreen and jack labels stay
+readable without leaving the page. Magnification follows the image's own
+resolution (the panels are ~4× the size they render at), so it never blurs;
+`ZOOM_MIN` / `ZOOM_MAX` / `PANE_W` at the top of
+[`static/js/panel-zoom.js`](static/js/panel-zoom.js) bound it. The whole thing is
+skipped on touch devices and other coarse pointers.
 
 ### Adding a module
 
