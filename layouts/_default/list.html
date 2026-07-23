@@ -1,0 +1,16 @@
+{{ define "main" }}
+<section class="catalog">
+  <div class="wrap">
+    <p class="crumbs"><a href="{{ site.Home.RelPermalink }}">&larr; Home</a></p>
+    <header class="section-head">
+      <h2>Module catalog</h2>
+      <p>Every module ships as open hardware and as a VCV Rack plugin. Click any card for the full manual.</p>
+    </header>
+    <div class="card-grid">
+      {{ range hugo.Data.modules }}
+        {{ partial "module-card.html" . }}
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}

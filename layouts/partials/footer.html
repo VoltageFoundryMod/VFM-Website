@@ -1,0 +1,21 @@
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <i class="icon brand-mark"
+        style="mask-image: url('{{ `img/vfm-mark.svg` | relURL }}'); -webkit-mask-image: url('{{ `img/vfm-mark.svg` | relURL }}');"></i>
+      <div>
+        <strong>{{ hugo.Data.company.name }}</strong>
+        <span>Open-source Eurorack &amp; VCV Rack modules.</span>
+      </div>
+    </div>
+    <nav class="footer-links">
+      <a href="{{ site.Params.github_org }}">GitHub</a>
+      <a href="{{ site.Params.plugin_repo }}">Plugin repo</a>
+      <a href="{{ site.Params.patreon }}">Support on Patreon</a>
+    </nav>
+  </div>
+  <div class="wrap footer-legal">
+    <span>&copy; {{ now.Year }} {{ hugo.Data.company.author }}. Modules under open-source licenses; VCV Rack plugin
+      under the VCV Rack EULA.</span>
+  </div>
+</footer>

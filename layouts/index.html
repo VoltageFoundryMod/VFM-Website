@@ -1,0 +1,181 @@
+{{ define "main" }}
+{{ $co := hugo.Data.company }}
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div class="hero-copy">
+      <p class="eyebrow">{{ $co.name }}</p>
+      <h1>{{ site.Params.tagline }}</h1>
+      <p class="lead">{{ $co.lead }}</p>
+      <div class="hero-actions">
+        <a class="btn btn-ghost" href="#modules">Browse the modules</a>
+        <a class="btn btn-primary" href="{{ site.Params.online_shop }}">Online Shop (soon!)</a>
+        <a class="btn btn-ghost" href="#get">Get the plugin</a>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <img src="{{ `img/VFM-Logo-Transp.png` | relURL }}" alt="{{ $co.name }} logo">
+    </div>
+  </div>
+</section>
+
+<section class="pillars">
+  <div class="wrap pillars-grid">
+    {{ range $co.pillars }}
+    <div class="pillar">
+      <span class="pillar-icon">{{ .icon | safeHTML }}</span>
+      <h3>{{ .title }}</h3>
+      <p>{{ .body }}</p>
+    </div>
+    {{ end }}
+  </div>
+</section>
+
+<section id="modules" class="catalog">
+  <div class="wrap">
+    <header class="section-head">
+      <h2>Module catalog</h2>
+      <p>Every module ships as open hardware and as a VCV Rack plugin. Click any card for the full manual.</p>
+    </header>
+    <div class="card-grid">
+      {{ range hugo.Data.modules }}
+      {{ partial "module-card.html" . }}
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<section id="get" class="get">
+  <div class="wrap">
+    <div class="get-switch" role="tablist" aria-label="How to get the modules">
+      <button class="get-tab is-active" role="tab" id="get-tab-0" aria-selected="true" aria-controls="get-pane-0"
+        data-slide="0">Get the VCV Modules</button>
+      <button class="get-tab" role="tab" id="get-tab-1" aria-selected="false" aria-controls="get-pane-1"
+        data-slide="1">Build the Hardware</button>
+    </div>
+
+    <div class="get-viewport">
+      <div class="get-track">
+        <!-- Pane 1 — VCV Rack plugin -->
+        <div class="get-slide" role="tabpanel" id="get-pane-0" aria-labelledby="get-tab-0">
+          <div class="get-inner">
+            <div class="get-copy">
+              <h2>Get the VCV modules</h2>
+              <p>
+                The whole catalog is bundled into a single VCV Rack plugin,
+                <strong>{{ site.Title }}</strong> — coming to the VCV Library
+                <b>soon</b>. Until then, build it from source or grab a release
+                from the plugin repository.
+              </p>
+              <div class="hero-actions">
+                <a class="btn btn-primary" href="{{ site.Params.vcv_library }}" target="_blank" rel="noopener">VCV
+                  Library (soon!)</a>
+                <a class="btn btn-ghost" href="{{ site.Params.plugin_repo }}" target="_blank"
+                  rel="noopener">Repository</a>
+                <a class="btn btn-ghost" href="{{ site.Params.github_org }}" target="_blank" rel="noopener">Sources on
+                  GitHub</a>
+              </div>
+            </div>
+            <div class="get-card">
+              <h3>Build the VCV version yourself</h3>
+              <pre><code>git clone --recursive \
+  {{ site.Params.plugin_repo }}
+cd VFM-Modules
+make
+make install
+</code></pre>
+              <p class="get-note">Requires the VCV Rack SDK. See the repository README for details.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pane 2 — Open hardware -->
+        <div class="get-slide" role="tabpanel" id="get-pane-1" aria-labelledby="get-tab-1" aria-hidden="true" inert>
+          <div class="get-inner">
+            <div class="get-copy">
+              <h2>Build the hardware</h2>
+              <p>
+                Every module is fully open hardware — schematics, panels and
+                firmware are all published. Order the PCBs and panel, source the
+                parts, and flash the firmware to hold the real Eurorack module in
+                your rack.
+              </p>
+              <div class="hero-actions">
+                <a class="btn btn-primary" href="{{ site.Params.hardware_repo }}" target="_blank"
+                  rel="noopener">Hardware repository</a>
+                <a class="btn btn-ghost" href="{{ site.Params.github_org }}" target="_blank" rel="noopener">All module
+                  sources</a>
+              </div>
+            </div>
+            <div class="get-card">
+              <h3>Flash a module's firmware</h3>
+              <pre><code>git clone --recursive \
+  {{ site.Params.github_org }}/ForgeSeries-CLK
+cd ForgeSeries-CLK
+pio run -t upload
+</code></pre>
+              <p class="get-note">Built with PlatformIO. Each module's repository has its own build &amp; calibration
+                guide.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="get-dots" role="presentation">
+      <button class="get-dot is-active" aria-label="Show VCV modules" data-slide="0"></button>
+      <button class="get-dot" aria-label="Show hardware" data-slide="1"></button>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var root = document.getElementById("get");
+    if (!root) return;
+    var track = root.querySelector(".get-track");
+    var slides = root.querySelectorAll(".get-slide");
+    var tabs = root.querySelectorAll(".get-tab");
+    var dots = root.querySelectorAll(".get-dot");
+    var count = slides.length;
+    var index = 0;
+    var timer = null;
+    var DELAY = 10000;
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function go(i) {
+      index = (i + count) % count;
+      track.style.transform = "translateX(" + (index * -100) + "%)";
+      tabs.forEach(function (t, n) {
+        var on = n === index;
+        t.classList.toggle("is-active", on);
+        t.setAttribute("aria-selected", on ? "true" : "false");
+      });
+      dots.forEach(function (d, n) {
+        d.classList.toggle("is-active", n === index);
+      });
+      slides.forEach(function (s, n) {
+        var off = n !== index;      // keep offscreen panes laid out, but inert
+        s.inert = off;
+        s.setAttribute("aria-hidden", off ? "true" : "false");
+      });
+    }
+
+    function start() {
+      if (reduce || timer) return;
+      timer = setInterval(function () { go(index + 1); }, DELAY);
+    }
+    function stop() { clearInterval(timer); timer = null; }
+    function jump(i) { go(i); stop(); start(); } // reset the clock on interaction
+
+    tabs.forEach(function (t) { t.addEventListener("click", function () { jump(+t.dataset.slide); }); });
+    dots.forEach(function (d) { d.addEventListener("click", function () { jump(+d.dataset.slide); }); });
+    root.addEventListener("mouseenter", stop);
+    root.addEventListener("mouseleave", start);
+    root.addEventListener("focusin", stop);
+    root.addEventListener("focusout", start);
+
+    go(0);
+    start();
+  })();
+</script>
+{{ end }}

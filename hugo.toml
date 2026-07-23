@@ -1,0 +1,36 @@
+# ── Voltage Foundry Modular — Hugo site configuration ────────────────────────
+# Most day-to-day content lives in data/*.yml (company info + module catalog),
+# not here. Module manual pages are generated into content/modules/ by
+# sync_manuals.py at build time (see the GitHub Actions workflow).
+
+baseURL = "https://voltagefoundrymod.github.io/VFM-VCV/"
+title = "Voltage Foundry Modular"
+enableGitInfo = false
+
+# Drop generated + tooling paths from the build.
+ignoreFiles = ['sync_manuals\.py$']
+
+# No blog-style taxonomies on a product site — removes the default tags/
+# categories pages. Module tags come from data/modules.yml, not Hugo taxonomies.
+[taxonomies]
+
+[params]
+  tagline = "Open-source Eurorack modules, forged in code and copper."
+  description = "Voltage Foundry Modular builds open-source Eurorack hardware and the matching VCV Rack plugins — the Forge series and beyond."
+  github_org = "https://github.com/VoltageFoundryMod"
+  patreon = "https://patreon.com/carlosedp"
+  plugin_repo = "https://github.com/VoltageFoundryMod/VFM-Modules"
+  vcv_library = "https://library.vcvrack.com/VoltageFoundryMod"
+  hardware_repo = "https://github.com/VoltageFoundryMod/ForgeSeries-Hardware"
+  online_shop = ""
+
+# The manuals contain raw HTML (<img>, <div align>, …). Let Goldmark keep it.
+[markup.goldmark.renderer]
+  unsafe = true
+
+[markup.highlight]
+  noClasses = true
+  style = "github-dark"
+
+# No RSS feed on a landing site.
+disableKinds = ["rss"]

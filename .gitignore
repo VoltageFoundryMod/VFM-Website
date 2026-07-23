@@ -1,0 +1,10 @@
+# Hugo build output and caches
+/public/
+/resources/_gen/
+.hugo_build.lock
+
+# Generated at build time by sync_manuals.py from the module submodules.
+# Never commit these — they are regenerated on every deploy.
+/content/modules/
+/static/panels/
+/static/modules/

@@ -1,0 +1,35 @@
+{{ define "main" }}
+{{ $m := index (where hugo.Data.modules "slug" .Params.slug) 0 }}
+{{ $ext := path.Ext $m.panel_src }}
+{{ $panel := printf "panels/%s%s" $m.slug $ext | relURL }}
+<article class="module">
+  <div class="wrap">
+    <p class="crumbs"><a href="{{ site.Home.RelPermalink }}#modules">&larr; All modules</a></p>
+
+    <header class="module-header">
+      <div class="module-panel">
+        <img src="{{ $panel }}" alt="{{ $m.name }} panel">
+      </div>
+      <div class="module-intro">
+        <div class="module-title">
+          <h1>{{ $m.name }}</h1>
+          {{ with $m.series }}<span class="chip chip-series">{{ . }}</span>{{ end }}
+        </div>
+        <p class="module-tagline">{{ $m.tagline }}</p>
+        <div class="card-tags">
+          {{ range $m.tags }}<span class="tag">{{ . }}</span>{{ end }}
+          {{ with $m.hp }}<span class="tag tag-spec">{{ . }}</span>{{ end }}
+        </div>
+        <div class="module-links">
+          <a class="btn btn-primary" href="https://github.com/VoltageFoundryMod/{{ $m.repo }}">Source &amp; hardware</a>
+          {{ with $m.modulargrid }}<a class="btn btn-ghost" href="{{ . }}">ModularGrid</a>{{ end }}
+        </div>
+      </div>
+    </header>
+
+    <div class="module-manual">
+      {{ .Content }}
+    </div>
+  </div>
+</article>
+{{ end }}
