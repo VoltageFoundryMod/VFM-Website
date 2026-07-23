@@ -14,10 +14,17 @@
 #   hp          Panel width, shown as a spec chip. Optional.
 #   repo        GitHub repo name under the VoltageFoundryMod org.
 #   manual_src  Path (from repo root) to the module's manual markdown.
-#   images_src  Path to the manual's image folder, or ~ if it has none.
+#   images_src  Path to the manual's image folder, or ~ if it has none. The
+#               folder name is preserved, so the manual's relative image links
+#               keep working (./images/x.png and ./Images/x.png are different
+#               URLs on the Pages server).
 #   panel_src   Path to the image used on the catalog card.
 #   tags        VCV Rack tags.
 #   modulargrid ModularGrid page, or ~ if not listed yet.
+#   vcv         Optional, defaults to true. false = hardware only, no VCV Rack
+#               version (analog module with nothing to emulate). Such a module
+#               is still a submodule here for its manual, but is left out of
+#               VFM_MODULES in the Makefile and of plugin.json.
 #   draft       Optional. true = hide from the site and skip in the sync/CI
 #               (e.g. while the module's repo is still private).
 
@@ -90,3 +97,23 @@
     - Complex
     - Digital
     - Hardware clone
+
+- slug: ironmix
+  name: IRONMix
+  tagline: Line-in mixer and headphone output stage in 4HP.
+  series: ~
+  hp: 4HP
+  repo: IRONMix
+  # Fully analog — there is no firmware to emulate, so this one is hardware
+  # only and is not part of the VCV Rack plugin.
+  vcv: false
+  manual_src: modules/IRONMix/Manual.md
+  images_src: modules/IRONMix/Images
+  panel_src: modules/IRONMix/Images/IronMix_Front.png
+  modulargrid: https://modulargrid.net/e/other-unknown-ironmix-by-voltage-foundry-modular
+  tags:
+    - Mixer
+    - Headphone amp
+    - Line level
+    - Analog
+    - Utility

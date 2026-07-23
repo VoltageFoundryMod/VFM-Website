@@ -26,7 +26,9 @@ the module submodules and runs `sync_manuals.py`, which reads `modules.yml` and
 generates, for each module:
 
 - `content/modules/<slug>/index.md` — a page containing that module's manual
-- `static/modules/<slug>/images/…` — the manual's images (served at the page URL)
+- `static/modules/<slug>/<Images>/…` — the manual's images, under the folder name
+  the module itself uses, so its relative links resolve (Pages URLs are
+  case-sensitive: `images/` and `Images/` are not the same)
 - `static/panels/<slug>.<ext>` — the catalog-card panel image
 
 Those generated paths are git-ignored. The script has **no third-party
@@ -42,13 +44,22 @@ tagline, series, …).
 
 ### Adding a module
 
-1. Add its repository as a submodule under `../modules`.
+1. Add its repository as a submodule under `../modules`, and add that path to
+   `REPOS` in the root [`Makefile`](../Makefile) — the one list both
+   `make repos-pull` and the Pages workflow use to check submodules out. A repo
+   that is still private stays out of `REPOS` and gets `draft: true` below,
+   since CI's token cannot read it.
 2. Add a block to [`data/modules.yml`](data/modules.yml) — set `slug`, `name`,
    `tagline`, `repo`, the `manual_src` / `images_src` / `panel_src` paths, and
    `tags`. That single block feeds both the card and the generated manual page.
 
 No template or code changes are needed. Keep `modules.yml` in its documented
 `key: value` form so the sync script keeps parsing it.
+
+A module with no VCV Rack version (a fully analog one, say) gets `vcv: false` in
+its block: the site then marks it **Hardware only** on the card and the manual
+page. It still needs its submodule for the manual, but it stays out of
+`VFM_MODULES` in the root `Makefile` and out of `plugin.json`.
 
 ## Local preview
 

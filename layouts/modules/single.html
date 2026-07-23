@@ -14,12 +14,18 @@
         <div class="module-title">
           <h1>{{ $m.name }}</h1>
           {{ with $m.series }}<span class="chip chip-series">{{ . }}</span>{{ end }}
+          {{ if eq $m.vcv false }}<span class="chip chip-hw">Hardware only</span>{{ end }}
         </div>
         <p class="module-tagline">{{ $m.tagline }}</p>
         <div class="card-tags">
           {{ range $m.tags }}<span class="tag">{{ . }}</span>{{ end }}
           {{ with $m.hp }}<span class="tag tag-spec">{{ . }}</span>{{ end }}
         </div>
+        {{ if eq $m.vcv false }}
+        <p class="module-note">This one is fully analog — there is no firmware to
+          emulate, so it ships as open hardware only and is not part of the VCV
+          Rack plugin.</p>
+        {{ end }}
         <div class="module-links">
           <a class="btn btn-primary" href="https://github.com/VoltageFoundryMod/{{ $m.repo }}">Source &amp; hardware</a>
           {{ with $m.modulargrid }}<a class="btn btn-ghost" href="{{ . }}">ModularGrid</a>{{ end }}

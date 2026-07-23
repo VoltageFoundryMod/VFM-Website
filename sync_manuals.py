@@ -5,7 +5,7 @@ Reads data/modules.yml (the single source of truth) and, for every module,
 generates:
 
     content/modules/<slug>/index.md   Hugo page (front matter + manual body)
-    static/modules/<slug>/images/...  the manual's images (served verbatim)
+    static/modules/<slug>/<Images>/…  the manual's images (served verbatim)
     static/panels/<slug>.<ext>        the catalog-card panel image
 
 Manuals live in the git submodules under ../modules, so nothing generated here
@@ -112,12 +112,15 @@ def main() -> None:
             fh.write(front + body)
 
         # 2. Manual images. Served from static/ at the same URL the page uses,
-        #    so relative refs like ./images/Front.png resolve.
+        #    so relative refs like ./images/Front.png resolve. The source folder
+        #    name is kept verbatim — modules spell it differently (images/,
+        #    Images/) and Pages serves case-sensitive URLs.
         if m["images_src"]:
             img_src = os.path.join(REPO_ROOT, m["images_src"])
+            img_dir = os.path.basename(m["images_src"].rstrip("/"))
             if os.path.isdir(img_src):
                 shutil.copytree(
-                    img_src, os.path.join(DOCS, "static", "modules", slug, "images")
+                    img_src, os.path.join(DOCS, "static", "modules", slug, img_dir)
                 )
             else:
                 die(f"images dir not found: {img_src}")

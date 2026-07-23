@@ -4,10 +4,10 @@
 name: Voltage Foundry Modular
 short_name: VFM
 lead: >-
-  Voltage Foundry Modular designs and builds open-source Eurorack modules that ship as
-  both real hardware and pixel-accurate VCV Rack plugins. The same firmware
-  that runs on the metal runs inside Rack — so you can try every module before
-  you buy or build it.
+  Voltage Foundry Modular designs and builds open-source Eurorack modules. Every
+  one is real, buildable hardware, and the firmware-driven ones also ship as
+  pixel-accurate VCV Rack plugins — the same firmware that runs on the metal
+  runs inside Rack, so you can try them before you buy or build.
 
 # The pitch shown as three feature blurbs on the home page.
 pillars:
@@ -21,10 +21,10 @@ pillars:
     body: >-
       The VCV Rack plugins are not reimplementations. They run the actual
       module firmware with the OLED emulated pixel for pixel.
-  - title: One plugin, every module
+  - title: One plugin, one install
     icon: "&#9881;" # gear
     body: >-
-      The whole catalog is bundled into a single VCV Rack plugin, kept in sync
-      with each module's own repository. (Soon on VCV Library!)
+      Every module with a Rack version is bundled into a single VCV plugin, kept
+      in sync with each module's own repository. (Soon on VCV Library!)
 
 author: Carlos Eduardo de Paula

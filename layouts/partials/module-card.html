@@ -2,6 +2,9 @@
   Renders one catalog card. Context (.) is a module record from
   hugo.Data.modules. The panel image is synced to /panels/<slug>.<ext> by
   sync_manuals.py; we derive the extension from the recorded source path.
+
+  `vcv: false` marks a hardware-only module (no VCV Rack version); absent means
+  yes, so only an explicit false flips the chip.
 */}}
 {{ $ext := path.Ext .panel_src }}
 {{ $panel := printf "panels/%s%s" .slug $ext | relURL }}
@@ -14,6 +17,7 @@
     <div class="card-head">
       <h3>{{ .name }}</h3>
       {{ with .series }}<span class="chip chip-series">{{ . }}</span>{{ end }}
+      {{ if eq .vcv false }}<span class="chip chip-hw">Hardware only</span>{{ end }}
     </div>
     <p class="card-tagline">{{ .tagline }}</p>
     <div class="card-tags">
