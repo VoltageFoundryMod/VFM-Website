@@ -18,6 +18,8 @@
 #   panel_src   Path to the image used on the catalog card.
 #   tags        VCV Rack tags.
 #   modulargrid ModularGrid page, or ~ if not listed yet.
+#   draft       Optional. true = hide from the site and skip in the sync/CI
+#               (e.g. while the module's repo is still private).
 
 - slug: clockforge
   name: Clock Forge
@@ -70,6 +72,9 @@
 
 - slug: alloyflux
   name: Alloy Flux
+  # draft: hidden from the site and skipped by the sync/CI until the repo is
+  # public. Set to false (or delete this line) to publish it.
+  draft: true
   tagline: Dual relation oscillator — a full stereo voice from one module.
   series: ~
   hp: 14HP

@@ -31,7 +31,7 @@ REPO_ROOT = os.path.dirname(DOCS)
 DATA_FILE = os.path.join(DOCS, "data", "modules.yml")
 
 # Scalar fields the sync needs from each module block in modules.yml.
-FIELDS = ("slug", "name", "manual_src", "images_src", "panel_src")
+FIELDS = ("slug", "name", "manual_src", "images_src", "panel_src", "draft")
 
 
 def parse_modules(path: str) -> list[dict[str, str | None]]:
@@ -81,6 +81,13 @@ def main() -> None:
 
     for m in modules:
         slug, name = m["slug"], m["name"]
+
+        # Skip drafts (e.g. a module whose repo is still private). Its submodule
+        # may not even be checked out, so don't touch its paths.
+        if (m.get("draft") or "").lower() == "true":
+            print(f"-> {name} ({slug}) [draft — skipped]")
+            continue
+
         print(f"-> {name} ({slug})")
 
         out_dir = os.path.join(DOCS, "content", "modules", slug)

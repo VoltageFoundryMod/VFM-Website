@@ -7,7 +7,7 @@
       <p>Every module ships as open hardware and as a VCV Rack plugin. Click any card for the full manual.</p>
     </header>
     <div class="card-grid">
-      {{ range hugo.Data.modules }}
+      {{ range where hugo.Data.modules "draft" "ne" true }}
         {{ partial "module-card.html" . }}
       {{ end }}
     </div>
