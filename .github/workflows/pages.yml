@@ -75,7 +75,11 @@ jobs:
       - name: Build with Hugo
         env:
           HUGO_ENVIRONMENT: production
-        run: hugo --gc --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
+        # Use the canonical baseURL from hugo.toml (https://vfmod.com/). Don't
+        # override with steps.pages.outputs.base_url — on this custom-domain
+        # setup it resolves to https://vfmod.com/VFM-Website, which prefixes
+        # every relURL asset with a 404-ing /VFM-Website/ path.
+        run: hugo --gc --minify
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
