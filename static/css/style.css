@@ -742,7 +742,7 @@ section > .wrap {
   margin: 20px auto;
   /* border-radius: var(--radius-sm); */
   /* border: 1px solid var(--line); */
-  background: #0a0c0f;
+  /* background: #0a0c0f; */
 }
 .module-manual code {
   font-family: var(--mono);
