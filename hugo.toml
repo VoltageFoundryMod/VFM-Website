@@ -3,7 +3,7 @@
 # not here. Module manual pages are generated into content/modules/ by
 # sync_manuals.py at build time (see the GitHub Actions workflow).
 
-baseURL = "https://voltagefoundrymod.github.io/VFM-VCV/"
+baseURL = "https://vfmod.com/"
 title = "Voltage Foundry Modular"
 enableGitInfo = false
 

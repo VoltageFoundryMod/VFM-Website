@@ -1,0 +1,94 @@
+name: Build & deploy site
+
+# Publishes this Hugo site to GitHub Pages (vfmod.com).
+#
+# One-time setup: repository → Settings → Pages → "Build and deployment" →
+# Source: "GitHub Actions", and set the custom domain to vfmod.com.
+#
+# Each module's manual + panel images live in its own repo. The build clones the
+# published module repos into modules/ (see MODULE_REPOS below) and runs
+# sync_manuals.py to pull each manual + images into the site before building, so
+# the published manuals always match those repos' latest default branch.
+
+on:
+  push:
+    branches: [main]
+  # Let module repos trigger a rebuild via repository_dispatch (optional).
+  repository_dispatch:
+    types: [module-updated]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment; don't cancel an in-progress one.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  HUGO_VERSION: "0.164.0"
+  # Public module repos whose manuals this site publishes. Add a repo here (and a
+  # matching block in data/modules.yml) when a module goes public. A module can
+  # stay listed in data/modules.yml with `draft: true` before it is cloned here —
+  # the sync skips drafts. Format: one "owner/repo" per line.
+  MODULE_REPOS: |
+    VoltageFoundryMod/ForgeSeries-CLK
+    VoltageFoundryMod/ForgeSeries-DQ
+    VoltageFoundryMod/ForgeSeries-SCP
+    VoltageFoundryMod/IRONMix
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Hugo
+        run: |
+          curl -sSL "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_linux-amd64.tar.gz" \
+            | sudo tar -xz -C /usr/local/bin hugo
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      # Clone each module repo into modules/<Repo>. Shallow, default branch.
+      # The paths in data/modules.yml ("modules/<Repo>/...") resolve against these.
+      - name: Clone module repos
+        run: |
+          while read -r repo; do
+            [ -z "$repo" ] && continue
+            name="${repo##*/}"
+            echo "-> cloning $repo into modules/$name"
+            git clone --depth 1 "https://github.com/${repo}.git" "modules/$name"
+          done <<< "$MODULE_REPOS"
+
+      - name: Sync module manuals
+        run: python3 sync_manuals.py
+
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Build with Hugo
+        env:
+          HUGO_ENVIRONMENT: production
+        run: hugo --gc --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

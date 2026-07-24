@@ -26,8 +26,11 @@ import re
 import shutil
 import sys
 
+# This script lives at the site root. Module repos are cloned into `modules/`
+# here at build time (see .github/workflows/pages.yml), so the manual/image
+# paths in data/modules.yml ("modules/<Repo>/...") resolve relative to this dir.
 DOCS = os.path.dirname(os.path.abspath(__file__))
-REPO_ROOT = os.path.dirname(DOCS)
+REPO_ROOT = DOCS
 DATA_FILE = os.path.join(DOCS, "data", "modules.yml")
 
 # Scalar fields the sync needs from each module block in modules.yml.
@@ -67,7 +70,7 @@ def parse_modules(path: str) -> list[dict[str, str | None]]:
 
 def die(msg: str) -> None:
     sys.stderr.write(f"  ! {msg}\n")
-    sys.stderr.write("    Did you run `git submodule update --init --recursive`?\n")
+    sys.stderr.write("    Did you clone the module repos? Run `make modules-clone`.\n")
     sys.exit(1)
 
 

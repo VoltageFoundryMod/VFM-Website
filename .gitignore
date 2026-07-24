@@ -3,7 +3,11 @@
 /resources/_gen/
 .hugo_build.lock
 
-# Generated at build time by sync_manuals.py from the module submodules.
+# Module repos cloned at build time (see .github/workflows/pages.yml and the
+# Makefile `modules-clone` target). Never committed — pulled fresh each build.
+/modules/
+
+# Generated at build time by sync_manuals.py from the cloned module repos.
 # Never commit these — they are regenerated on every deploy.
 /content/modules/
 /static/panels/
