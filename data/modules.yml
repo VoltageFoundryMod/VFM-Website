@@ -43,6 +43,7 @@
     - Clock modulator
     - Digital
     - Hardware clone
+    - 6HP
 
 - slug: noteforge
   name: Note Forge
@@ -60,6 +61,7 @@
     - Digital
     - Hardware clone
     - Utility
+    - 6HP
 
 - slug: forgeview
   name: Forge View
@@ -76,6 +78,7 @@
     - Digital
     - Utility
     - Hardware clone
+    - 6HP
 
 - slug: alloyflux
   name: Alloy Flux
@@ -97,6 +100,7 @@
     - Complex
     - Digital
     - Hardware clone
+    - 14HP
 
 - slug: ironmix
   name: IRONMix
@@ -117,3 +121,4 @@
     - Line level
     - Analog
     - Utility
+    - 4HP
