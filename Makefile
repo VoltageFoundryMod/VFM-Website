@@ -1,34 +1,18 @@
 # VFM website (Hugo → GitHub Pages, vfmod.com).
 #
-# Each module's manual + images live in its own repo. `modules-clone` pulls the
-# published module repos into modules/ (kept out of git — see .gitignore), then
-# `sync` copies each manual + images into the site. CI does the same in
-# .github/workflows/pages.yml; keep MODULE_REPOS here in sync with that file.
+# `sync_manuals.py` reads data/modules.yml — the only list of modules — and
+# fetches each one's manual + images into the site. There is no repo list to
+# keep in step here or in CI; both just run the script.
+#
+# It prefers a sibling checkout (../ForgeSeries, ../IRONMix, …) when you have
+# one, so `make serve` picks up manual edits in those repos with no commit or
+# push. Otherwise it shallow-clones into modules/ (gitignored).
 #
 # Local preview:
-#   make serve     # clone modules, sync manuals, run `hugo server`
-# Needs the `hugo` binary and Python 3.
+#   make serve     # sync manuals, run `hugo server`
+# Needs the `hugo` binary, Python 3 and git.
 
-# Public module repos whose manuals this site publishes.
-MODULE_REPOS := \
-  VoltageFoundryMod/ForgeSeries-CLK \
-  VoltageFoundryMod/ForgeSeries-DQ \
-  VoltageFoundryMod/ForgeSeries-SCP \
-  VoltageFoundryMod/IRONMix
-
-# Clone each module repo into modules/<Repo> (shallow). Safe to re-run.
-modules-clone:
-	@for repo in $(MODULE_REPOS); do \
-	  name=$${repo##*/}; \
-	  if [ -d "modules/$$name/.git" ]; then \
-	    echo "-> updating modules/$$name"; git -C "modules/$$name" pull --ff-only; \
-	  else \
-	    echo "-> cloning $$repo into modules/$$name"; \
-	    git clone --depth 1 "https://github.com/$$repo.git" "modules/$$name"; \
-	  fi; \
-	done
-
-sync: modules-clone
+sync:
 	python3 sync_manuals.py
 
 serve: sync
@@ -37,4 +21,8 @@ serve: sync
 build: sync
 	hugo --gc --minify
 
-.PHONY: modules-clone sync serve build
+# Drop the cloned module repos and everything the sync generates.
+clean:
+	rm -rf modules content/modules static/modules static/panels public resources
+
+.PHONY: sync serve build clean

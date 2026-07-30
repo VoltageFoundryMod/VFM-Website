@@ -1,42 +1,49 @@
 # ── Module catalog ───────────────────────────────────────────────────────────
 # Single source of truth for the module catalog. This file drives BOTH:
 #   * the rendered cards / pages on the site, and
-#   * _sync_manuals.rb, which copies each module's manual + images into the site
-#     at build time (from the `manual_src` / `images_src` paths below).
+#   * sync_manuals.py, which fetches each module's repo and copies its manual +
+#     images into the site at build time.
 #
-# To add a module: add its submodule under ../modules, add a block here, done.
+# It is the *only* list of module sources: the Makefile and the CI workflow both
+# just run sync_manuals.py, which reads `src` below. Adding a module is one
+# block here — nothing else to update.
 #
 # Fields
 #   slug        URL + asset key. Page lives at /modules/<slug>/.
 #   name        Display name.
+#   src         Where the module lives: "<repo>" or "<repo>/<path in it>", under
+#               github.com/VoltageFoundryMod. The Forge Series modules share the
+#               ForgeSeries monorepo (one app per apps/<key> directory); older
+#               modules are each their own repo. Everything else is derived:
+#
+#                   <src>/Manual.md          the manual
+#                   <src>/images/            its image folder
+#                   <src>/images/Front.png   the catalog-card panel
+#
+#               Override any of those three with `manual` / `images` / `panel`
+#               (paths relative to <src>) when a repo differs. `images: ~` means
+#               the module has no image folder.
+#
 #   tagline     One-line pitch shown on the card and page header.
 #   series      Product line label (e.g. "Forge Series"), or ~ for none.
 #   hp          Panel width, shown as a spec chip. Optional.
-#   repo        GitHub repo name under the VoltageFoundryMod org.
-#   manual_src  Path (from repo root) to the module's manual markdown.
-#   images_src  Path to the manual's image folder, or ~ if it has none. The
-#               folder name is preserved, so the manual's relative image links
-#               keep working (./images/x.png and ./Images/x.png are different
-#               URLs on the Pages server).
-#   panel_src   Path to the image used on the catalog card.
 #   tags        VCV Rack tags.
 #   modulargrid ModularGrid page, or ~ if not listed yet.
 #   vcv         Optional, defaults to true. false = hardware only, no VCV Rack
-#               version (analog module with nothing to emulate). Such a module
-#               is still a submodule here for its manual, but is left out of
-#               VFM_MODULES in the Makefile and of plugin.json.
+#               version (analog module with nothing to emulate).
 #   draft       Optional. true = hide from the site and skip in the sync/CI
 #               (e.g. while the module's repo is still private).
+#
+# Note on image folder names: the source folder name is preserved verbatim, so
+# the manual's relative links keep working (./images/x.png and ./Images/x.png
+# are different URLs on the case-sensitive Pages server).
 
 - slug: clockforge
   name: Clock Forge
   tagline: Advanced clock generator and modulator with four flexible outputs.
   series: Forge Series
-  hp: 8HP
-  repo: ForgeSeries-CLK
-  manual_src: modules/ForgeSeries-CLK/Manual.md
-  images_src: modules/ForgeSeries-CLK/images
-  panel_src: modules/ForgeSeries-CLK/images/Front.png
+  hp: 6HP
+  src: ForgeSeries/apps/clk
   modulargrid: https://modulargrid.net/e/other-unknown-clockforge-by-voltage-foundry-modular
   tags:
     - Clock generator
@@ -49,10 +56,8 @@
   name: Note Forge
   tagline: Dual CV quantizer with per-channel scales, envelopes and glide.
   series: Forge Series
-  repo: ForgeSeries-DQ
-  manual_src: modules/ForgeSeries-DQ/Manual.md
-  images_src: modules/ForgeSeries-DQ/images
-  panel_src: modules/ForgeSeries-DQ/images/Front.png
+  hp: 6HP
+  src: ForgeSeries/apps/dq
   modulargrid: ~
   tags:
     - Quantizer
@@ -67,16 +72,29 @@
   name: Forge View
   tagline: Oscilloscope, spectrum analyzer, X-Y display and tuner in one.
   series: Forge Series
-  repo: ForgeSeries-SCP
-  manual_src: modules/ForgeSeries-SCP/Manual.md
-  images_src: modules/ForgeSeries-SCP/images
-  panel_src: modules/ForgeSeries-SCP/images/Front.png
+  hp: 6HP
+  src: ForgeSeries/apps/scp
   modulargrid: https://modulargrid.net/e/other-unknown-forgeview-by-voltage-foundry-modular
   tags:
     - Visual
     - Polyphonic
     - Digital
     - Utility
+    - Hardware clone
+    - 6HP
+
+- slug: gravityforge
+  name: Gravity Forge
+  tagline: Dual physics-based generative sequencer — notes fall out of bouncing balls.
+  series: Forge Series
+  hp: 6HP
+  src: ForgeSeries/apps/gen
+  modulargrid: ~
+  tags:
+    - Sequencer
+    - Random
+    - Dual
+    - Digital
     - Hardware clone
     - 6HP
 
@@ -88,10 +106,10 @@
   tagline: Dual relation oscillator — a full stereo voice from one module.
   series: ~
   hp: 14HP
-  repo: AlloyFlux
-  manual_src: modules/AlloyFlux/references/AlloyFlux-user-manual.md
-  images_src: ~
-  panel_src: modules/AlloyFlux/vcv-plugin/res/AlloyFlux.svg
+  src: AlloyFlux
+  # No manual image folder yet, and the panel comes from the Rack plugin's SVG.
+  images: ~
+  panel: vcv-plugin/res/AlloyFlux.svg
   modulargrid: ~
   tags:
     - Oscillator
@@ -107,13 +125,13 @@
   tagline: Line-in mixer and headphone output stage in 4HP.
   series: ~
   hp: 4HP
-  repo: IRONMix
   # Fully analog — there is no firmware to emulate, so this one is hardware
   # only and is not part of the VCV Rack plugin.
   vcv: false
-  manual_src: modules/IRONMix/Manual.md
-  images_src: modules/IRONMix/Images
-  panel_src: modules/IRONMix/Images/IronMix_Front.png
+  src: IRONMix
+  # This repo predates the convention: capitalised folder, prefixed panel name.
+  images: Images
+  panel: Images/IronMix_Front.png
   modulargrid: https://modulargrid.net/e/other-unknown-ironmix-by-voltage-foundry-modular
   tags:
     - Mixer

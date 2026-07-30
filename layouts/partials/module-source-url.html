@@ -1,0 +1,14 @@
+{{/*
+GitHub URL for a module's sources. Context (.) is a module record's `src`, i.e.
+"<repo>" or "<repo>/<path in it>".
+
+A module in its own repo links to the repo; one living in the ForgeSeries
+monorepo deep-links to its own directory rather than dropping the visitor at the
+monorepo root.
+*/ -}}
+{{- $parts := split . "/" -}}
+{{- $url := printf "https://github.com/VoltageFoundryMod/%s" (index $parts 0) -}}
+{{- with delimit (after 1 $parts) "/" -}}
+  {{- $url = printf "%s/tree/main/%s" $url . -}}
+{{- end -}}
+{{- $url -}}

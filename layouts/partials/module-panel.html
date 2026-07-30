@@ -1,0 +1,11 @@
+{{/*
+Public URL of a module's synced catalog-card panel. Context (.) is a module
+record from hugo.Data.modules.
+
+sync_manuals.py copies the panel to /panels/<slug>.<ext>, keeping the source
+extension (most are .png, AlloyFlux is an .svg). We recover that extension from
+the same `panel` convention the sync uses: the field when the module overrides
+it, images/Front.png otherwise.
+*/ -}}
+{{- $ext := path.Ext (.panel | default "images/Front.png") -}}
+{{- printf "panels/%s%s" .slug $ext | relURL -}}

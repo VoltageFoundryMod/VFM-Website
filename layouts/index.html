@@ -62,7 +62,7 @@
             <div class="get-copy">
               <h2>Get the VCV modules</h2>
               <p>
-                The whole catalog is bundled into a single VCV Rack plugin,
+                The ForgeSeries catalog is bundled into a single VCV Rack plugin,
                 <strong>{{ site.Title }}</strong> — coming to the VCV Library
                 <b>soon</b>. Until then, build it from source or grab a release
                 from the plugin repository.
@@ -78,11 +78,9 @@
             </div>
             <div class="get-card">
               <h3>Build the VCV version yourself</h3>
-              <pre><code>git clone --recursive \
-  {{ site.Params.plugin_repo }}
-cd VFM-Modules
-make
-make install
+              <pre><code>git clone {{ site.Params.plugin_repo }}
+cd ForgeSeries
+make vcv-install
 </code></pre>
               <p class="get-note">Requires the VCV Rack SDK. See the repository README for details.</p>
             </div>
@@ -108,11 +106,11 @@ make install
               </div>
             </div>
             <div class="get-card">
-              <h3>Flash a module's firmware</h3>
-              <pre><code>git clone --recursive \
-  {{ site.Params.github_org }}/ForgeSeries-CLK
-cd ForgeSeries-CLK
-pio run -t upload
+              <h3>Flash the ForgeSeries module's firmware</h3>
+              <pre><code>git clone {{ site.Params.github_org }}/ForgeSeries
+cd ForgeSeries
+make
+make upload
 </code></pre>
               <p class="get-note">Built with PlatformIO. Each module's repository has its own build &amp; calibration
                 guide.</p>

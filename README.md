@@ -20,13 +20,14 @@ just the Hugo binary and Python 3.
 ├── static/              css, js, logos (panels + manual images are generated)
 │   └── js/panel-zoom.js  hover magnifier for the module-page panel image
 ├── content/_index.md    home page stub
-├── sync_manuals.py      copies each module's manual + images in at build time
-└── Makefile             modules-clone + sync + serve/build helpers
+├── sync_manuals.py      fetches each module's manual + images at build time
+└── Makefile             sync + serve/build helpers
 ```
 
-Nothing about the manuals is committed. Each module's manual + images live in
-its **own** repo. On every deploy the workflow clones the published module repos
-into `modules/` and runs `sync_manuals.py`, which reads `modules.yml` and
+Nothing about the manuals is committed. They live in the module repos: the Forge
+Series modules share the **ForgeSeries** monorepo (one app per `apps/<key>`
+directory), and older modules are each their own repo. On every deploy CI just
+runs `sync_manuals.py`, which reads `modules.yml`, fetches what it names and
 generates, for each module:
 
 - `content/modules/<slug>/index.md` — a page containing that module's manual
@@ -35,10 +36,41 @@ generates, for each module:
   case-sensitive: `images/` and `Images/` are not the same)
 - `static/panels/<slug>.<ext>` — the catalog-card panel image
 
-The cloned `modules/` dir and those generated paths are git-ignored. The script
-has **no third-party dependencies**: it pulls only the file-path fields it needs
-out of `modules.yml`, while Hugo reads the same file for all display metadata
-(tags, tagline, series, …).
+`modules.yml` is the **only** list of module sources — the Makefile and the
+workflow have none of their own. Each module names one `src` (`<repo>` or
+`<repo>/<path in it>`) and everything else follows by convention:
+
+| | |
+| --- | --- |
+| `<src>/Manual.md` | the manual |
+| `<src>/images/` | its image folder |
+| `<src>/images/Front.png` | the catalog-card panel |
+
+`manual` / `images` / `panel` override one of those when a repo differs (IRONMix
+predates the convention and capitalises `Images/`); `images: ~` means the module
+has no image folder at all.
+
+The cloned `modules/` dir and the generated paths are git-ignored. The script has
+**no third-party dependencies**: it pulls only the handful of scalar fields it
+needs out of `modules.yml`, while Hugo reads the same file for all display
+metadata (tags, tagline, series, …). It needs only stock Python 3 and git.
+
+### How the sources are fetched
+
+Per repo, `sync_manuals.py` picks the first of:
+
+1. **a sibling checkout** at `../<repo>` — so if you have `ForgeSeries` cloned
+   next to this repo, `make serve` shows your uncommitted manual edits directly,
+   with no commit or push;
+2. an existing clone in `modules/<repo>`, refreshed with a pull;
+3. a fresh clone into `modules/<repo>`.
+
+CI has no siblings, so it always lands on the clone. That clone is shallow,
+blobless and **sparse** — it matters, because ForgeSeries is a ~354 MB monorepo
+and the site wants four `Manual.md` files and their images out of it. The sparse
+set is derived from the same `src` paths: cone-mode on each module's image
+directory, which also picks up the files sitting beside it (`Manual.md`) without
+pulling any firmware or the 18 MB panel SVGs.
 
 ## Editing content
 
@@ -57,19 +89,28 @@ skipped on touch devices and other coarse pointers.
 
 ### Adding a module
 
-1. Add its `owner/repo` to **`MODULE_REPOS`** in **both**
-   [`Makefile`](Makefile) and
-   [`.github/workflows/pages.yml`](.github/workflows/pages.yml) — the list of
-   module repos cloned in for the manuals. A repo that is still private stays out
-   of both lists and gets `draft: true` below (the sync skips drafts), since CI
-   can only clone public repos here.
-2. Add a block to [`data/modules.yml`](data/modules.yml) — set `slug`, `name`,
-   `tagline`, `repo`, the `manual_src` / `images_src` / `panel_src` paths
-   (relative to the repo root, e.g. `modules/<Repo>/Manual.md`), and `tags`.
-   That single block feeds both the card and the generated manual page.
+Add one block to [`data/modules.yml`](data/modules.yml) — that's the whole job.
+Set `slug`, `name`, `tagline`, `tags` and `src`; a module that follows the
+convention above needs nothing else:
 
-No template or code changes are needed. Keep `modules.yml` in its documented
-`key: value` form so the sync script keeps parsing it.
+```yaml
+- slug: gravityforge
+  name: Gravity Forge
+  tagline: Dual physics-based generative sequencer — notes fall out of bouncing balls.
+  series: Forge Series
+  hp: 6HP
+  src: ForgeSeries/apps/gen
+  tags: [Sequencer, Random, Dual, Digital, Hardware clone, 6HP]
+```
+
+That single block feeds the card, the generated manual page, the GitHub source
+link and what the sync fetches. No other file, template or code change.
+
+A module whose repo is still private gets `draft: true`: the site hides it and
+the sync skips it entirely, so CI never tries to clone it.
+
+Keep `modules.yml` in its documented `key: value` form so the sync script keeps
+parsing it.
 
 A module with no VCV Rack version (a fully analog one, say) gets `vcv: false` in
 its block: the site then marks it **Hardware only** on the card and the manual
@@ -80,11 +121,16 @@ page.
 Needs [Hugo](https://gohugo.io/installation/) and Python 3 (no Ruby, no Bundler).
 
 ```sh
-make serve      # clone module repos, sync manuals, run `hugo server`
+make serve      # fetch + sync manuals, run `hugo server`
 ```
 
-Or step by step: `make modules-clone` then `python3 sync_manuals.py` then
-`hugo server`. Use `make build` for a production build into `public/`.
+Or step by step: `python3 sync_manuals.py` then `hugo server`. Use `make build`
+for a production build into `public/`, and `make clean` to drop the cloned repos
+and everything generated.
+
+If you keep the module repos checked out next to this one (`../ForgeSeries`,
+`../IRONMix`, …), the sync uses them as-is, so editing a manual there and
+re-running `make serve` shows it immediately.
 
 > No Hugo binary handy but have Go? `go install github.com/gohugoio/hugo@latest`.
 
@@ -92,8 +138,8 @@ Or step by step: `make modules-clone` then `python3 sync_manuals.py` then
 
 Deployment is automatic via
 [`.github/workflows/pages.yml`](.github/workflows/pages.yml) on every push to
-`main`. The workflow installs Hugo, clones the module repos, runs the Python
-sync, and builds — nothing else.
+`main`. The workflow installs Hugo, runs the Python sync (which fetches the
+module repos itself) and builds — nothing else.
 
 **One-time setup:** repository → **Settings → Pages → Build and deployment →
 Source: “GitHub Actions,”** then set the custom domain to `vfmod.com`. DNS for

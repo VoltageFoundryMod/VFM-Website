@@ -1,7 +1,6 @@
 {{ define "main" }}
 {{ $m := index (where hugo.Data.modules "slug" .Params.slug) 0 }}
-{{ $ext := path.Ext $m.panel_src }}
-{{ $panel := printf "panels/%s%s" $m.slug $ext | relURL }}
+{{ $panel := partial "module-panel.html" $m }}
 <article class="module">
   <div class="wrap">
     <p class="crumbs"><a href="{{ site.Home.RelPermalink }}#modules">&larr; All modules</a></p>
@@ -30,7 +29,7 @@
           Rack plugin.</p>
         {{ end }}
         <div class="module-links">
-          <a class="btn btn-primary" href="https://github.com/VoltageFoundryMod/{{ $m.repo }}">Source &amp; hardware</a>
+          <a class="btn btn-primary" href="{{ partial "module-source-url.html" $m.src }}">Source &amp; hardware</a>
           {{ with $m.modulargrid }}<a class="btn btn-ghost" href="{{ . }}">ModularGrid</a>{{ end }}
         </div>
       </div>
