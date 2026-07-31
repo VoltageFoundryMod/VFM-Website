@@ -24,6 +24,7 @@ ignoreFiles = ['sync_manuals\.py$']
   vcv_library = "https://library.vcvrack.com/VoltageFoundryMod"
   hardware_repo = "https://github.com/VoltageFoundryMod/ForgeSeries-Hardware"
   online_shop = ""
+  contact = "mailto:contact@vfmod.com"
 
 # The manuals contain raw HTML (<img>, <div align>, …). Let Goldmark keep it.
 [markup.goldmark.renderer]
