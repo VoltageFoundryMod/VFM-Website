@@ -444,14 +444,18 @@ section > .wrap {
   margin: 0;
 }
 
-/* Sliding VCV ↔ Hardware switcher */
-.get-switch {
+/* ── Slider ─────────────────────────────────────────────────────────────── */
+/* Shared tabbed carousel chrome. Any element with [data-rotate] containing
+   these parts becomes a rotating slider (see js/rotate-panels.js) — used by
+   the VCV ↔ Hardware switcher and the workbench tools. */
+.slider-tabs {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 34px;
 }
-.get-tab {
+.slider-tab {
   appearance: none;
   cursor: pointer;
   font: inherit;
@@ -467,33 +471,33 @@ section > .wrap {
     border-color 0.2s ease,
     background 0.2s ease;
 }
-.get-tab:hover {
+.slider-tab:hover {
   color: var(--text);
   border-color: var(--molten);
 }
-.get-tab.is-active {
+.slider-tab.is-active {
   color: #1a0e06;
   background: linear-gradient(135deg, var(--molten-2), var(--molten));
   border-color: transparent;
 }
-.get-viewport {
+.slider-viewport {
   overflow: hidden;
 }
-.get-track {
+.slider-track {
   display: flex;
   transition: transform 0.55s cubic-bezier(0.6, 0.02, 0.2, 1);
 }
-.get-slide {
+.slider-slide {
   flex: 0 0 100%;
   min-width: 0;
 }
-.get-dots {
+.slider-dots {
   display: flex;
   justify-content: center;
   gap: 10px;
   margin-top: 30px;
 }
-.get-dot {
+.slider-dot {
   cursor: pointer;
   width: 9px;
   height: 9px;
@@ -506,18 +510,72 @@ section > .wrap {
     transform 0.2s ease,
     border-color 0.2s ease;
 }
-.get-dot:hover {
+.slider-dot:hover {
   border-color: var(--molten);
 }
-.get-dot.is-active {
+.slider-dot.is-active {
   background: var(--molten);
   border-color: var(--molten);
   transform: scale(1.15);
 }
 @media (prefers-reduced-motion: reduce) {
-  .get-track {
+  .slider-track {
     transition: none;
   }
+}
+
+/* ── Workbench tools ────────────────────────────────────────────────────── */
+/* One rotating slide per tool — driven by data/tools.yml. */
+.tools {
+  border-top: 1px solid var(--line);
+}
+.tool-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+.tool-copy h3 {
+  font-size: clamp(1.4rem, 2.4vw, 1.8rem);
+  margin: 0 0 10px;
+}
+.tool-tagline {
+  color: var(--molten-2);
+  margin: 0 0 14px;
+}
+.tool-body {
+  color: var(--muted);
+  margin: 0 0 24px;
+}
+.tool-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+.tool-card h4 {
+  margin: 0 0 14px;
+  font-size: 1.05rem;
+}
+.tool-features {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.tool-features li {
+  position: relative;
+  padding-left: 22px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+/* Molten tick in place of a bullet. */
+.tool-features li::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--molten);
 }
 
 /* ── Footer ─────────────────────────────────────────────────────────────── */
@@ -808,7 +866,8 @@ section > .wrap {
   .pillars-grid {
     grid-template-columns: 1fr;
   }
-  .get-inner {
+  .get-inner,
+  .tool-inner {
     grid-template-columns: 1fr;
   }
   .module-header {

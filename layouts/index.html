@@ -46,18 +46,18 @@
 </section>
 
 <section id="get" class="get">
-  <div class="wrap">
-    <div class="get-switch" role="tablist" aria-label="How to get the modules">
-      <button class="get-tab is-active" role="tab" id="get-tab-0" aria-selected="true" aria-controls="get-pane-0"
+  <div class="wrap" data-rotate>
+    <div class="slider-tabs" role="tablist" aria-label="How to get the modules">
+      <button class="slider-tab is-active" role="tab" id="get-tab-0" aria-selected="true" aria-controls="get-pane-0"
         data-slide="0">Get the VCV Modules</button>
-      <button class="get-tab" role="tab" id="get-tab-1" aria-selected="false" aria-controls="get-pane-1"
+      <button class="slider-tab" role="tab" id="get-tab-1" aria-selected="false" aria-controls="get-pane-1"
         data-slide="1">Build the Hardware</button>
     </div>
 
-    <div class="get-viewport">
-      <div class="get-track">
+    <div class="slider-viewport">
+      <div class="slider-track">
         <!-- Pane 1 — VCV Rack plugin -->
-        <div class="get-slide" role="tabpanel" id="get-pane-0" aria-labelledby="get-tab-0">
+        <div class="slider-slide" role="tabpanel" id="get-pane-0" aria-labelledby="get-tab-0">
           <div class="get-inner">
             <div class="get-copy">
               <h2>Get the VCV modules</h2>
@@ -88,7 +88,7 @@ make vcv-install
         </div>
 
         <!-- Pane 2 — Open hardware -->
-        <div class="get-slide" role="tabpanel" id="get-pane-1" aria-labelledby="get-tab-1" aria-hidden="true" inert>
+        <div class="slider-slide" role="tabpanel" id="get-pane-1" aria-labelledby="get-tab-1" aria-hidden="true" inert>
           <div class="get-inner">
             <div class="get-copy">
               <h2>Build the hardware</h2>
@@ -122,9 +122,63 @@ make upload
       </div>
     </div>
 
-    <div class="get-dots" role="presentation">
-      <button class="get-dot is-active" aria-label="Show VCV modules" data-slide="0"></button>
-      <button class="get-dot" aria-label="Show hardware" data-slide="1"></button>
+    <div class="slider-dots" role="presentation">
+      <button class="slider-dot is-active" aria-label="Show VCV modules" data-slide="0"></button>
+      <button class="slider-dot" aria-label="Show hardware" data-slide="1"></button>
+    </div>
+  </div>
+</section>
+
+{{ $tools := where hugo.Data.tools "draft" "ne" true }}
+<section id="tools" class="tools">
+  <div class="wrap" data-rotate>
+    <header class="section-head">
+      <h2>From the workbench</h2>
+      <p>Tools built along the way to make the modules. Free, and they run in your browser — nothing to install.</p>
+    </header>
+
+    <div class="slider-tabs" role="tablist" aria-label="Workbench tools">
+      {{ range $i, $t := $tools }}
+      <button class="slider-tab{{ if eq $i 0 }} is-active{{ end }}" role="tab" id="tools-tab-{{ $i }}"
+        aria-selected="{{ if eq $i 0 }}true{{ else }}false{{ end }}" aria-controls="tools-pane-{{ $i }}"
+        data-slide="{{ $i }}">{{ $t.name }}</button>
+      {{ end }}
+    </div>
+
+    <div class="slider-viewport">
+      <div class="slider-track">
+        {{ range $i, $t := $tools }}
+        <div class="slider-slide" role="tabpanel" id="tools-pane-{{ $i }}" aria-labelledby="tools-tab-{{ $i }}"
+          {{ if ne $i 0 }}aria-hidden="true" inert{{ end }}>
+          <div class="tool-inner">
+            <div class="tool-copy">
+              <h3>{{ $t.name }}</h3>
+              <p class="tool-tagline">{{ $t.tagline }}</p>
+              <p class="tool-body">{{ $t.body }}</p>
+              <div class="hero-actions">
+                <a class="btn btn-primary" href="{{ $t.url }}" target="_blank" rel="noopener">{{ $t.cta | default
+                  (printf "Open %s" $t.name) }}</a>
+              </div>
+            </div>
+            <div class="tool-card">
+              <h4>{{ $t.card | default "What it handles" }}</h4>
+              <ul class="tool-features">
+                {{ range $t.features }}
+                <li>{{ . }}</li>
+                {{ end }}
+              </ul>
+            </div>
+          </div>
+        </div>
+        {{ end }}
+      </div>
+    </div>
+
+    <div class="slider-dots" role="presentation">
+      {{ range $i, $t := $tools }}
+      <button class="slider-dot{{ if eq $i 0 }} is-active{{ end }}" aria-label="Show {{ $t.name }}"
+        data-slide="{{ $i }}"></button>
+      {{ end }}
     </div>
   </div>
 </section>

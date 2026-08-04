@@ -1,0 +1,43 @@
+# ── Workbench tools ──────────────────────────────────────────────────────────
+# Side tools that aren't modules — the free, browser-based utilities built
+# along the way. Drives the "From the workbench" rotator on the home page, one
+# slide per tool. Adding one is a block here; no code changes needed.
+#
+# Fields
+#   name      Display name. Doubles as the slide's tab label, so keep it short.
+#   url       Where the tool is hosted.
+#   tagline   One-line pitch, shown under the name.
+#   body      Short paragraph — what it actually does for you.
+#   card      Heading for the feature card on the right of the slide.
+#   features  Bullets in that card. Four or five reads best; more overflows
+#             the slide on narrow screens.
+#   cta       Button label. Optional, defaults to "Open <name>".
+#   draft     Optional. true = hide from the site.
+
+- name: SVG to PCB
+  url: https://gingerbread.vfmod.com/
+  tagline: Front panel artwork into fabrication-ready PCBs.
+  body: >-
+    Draw your Eurorack front panel as vector artwork, then turn it into a KiCad
+    board ready for the fab house — no PCB editor wrangling in between.
+  card: What it handles
+  features:
+    - Panel size in HP or millimetres, at 72, 96 or 2540 DPI
+    - Round or slotted mounting holes, placed for you
+    - Artwork mapped onto copper, mask and silkscreen layers
+    - Round-trip through Inkscape for the detailed work
+    - Mirrored export for back-layer artwork
+
+- name: Sample Editor
+  url: https://audioedit.carlosedp.com/
+  tagline: Reel and audio editor for Eurorack samplers.
+  body: >-
+    Prepare audio for the Make Noise Morphagene and other hardware samplers.
+    Everything runs locally in your browser — no upload, no install, no account.
+  card: What it handles
+  features:
+    - Splices from automatic transient detection, snapped to zero crossings
+    - Lock the splices you like before reprocessing
+    - Tempo and pitch shifting, fades, cropping, concatenation, normalize
+    - Export at Morphagene's 48kHz/32-bit, or any rate and depth you need
+    - Batch processing and per-splice export
