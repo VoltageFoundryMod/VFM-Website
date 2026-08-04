@@ -141,18 +141,18 @@ make upload
       {{ range $i, $t := $tools }}
       <button class="slider-tab{{ if eq $i 0 }} is-active{{ end }}" role="tab" id="tools-tab-{{ $i }}"
         aria-selected="{{ if eq $i 0 }}true{{ else }}false{{ end }}" aria-controls="tools-pane-{{ $i }}"
-        data-slide="{{ $i }}">{{ $t.name }}</button>
+        data-slide="{{ $i }}">{{ $t.function }}</button>
       {{ end }}
     </div>
 
     <div class="slider-viewport">
       <div class="slider-track">
         {{ range $i, $t := $tools }}
-        <div class="slider-slide" role="tabpanel" id="tools-pane-{{ $i }}" aria-labelledby="tools-tab-{{ $i }}"
-          {{ if ne $i 0 }}aria-hidden="true" inert{{ end }}>
+        <div class="slider-slide" role="tabpanel" id="tools-pane-{{ $i }}" aria-labelledby="tools-tab-{{ $i }}" {{ if ne
+          $i 0 }}aria-hidden="true" inert{{ end }}>
           <div class="tool-inner">
             <div class="tool-copy">
-              <h3>{{ $t.name }}</h3>
+              <h3>{{ $t.name }} - {{ $t.function }}</h3>
               <p class="tool-tagline">{{ $t.tagline }}</p>
               <p class="tool-body">{{ $t.body }}</p>
               <div class="hero-actions">

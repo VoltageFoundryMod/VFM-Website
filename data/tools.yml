@@ -14,7 +14,8 @@
 #   cta       Button label. Optional, defaults to "Open <name>".
 #   draft     Optional. true = hide from the site.
 
-- name: SVG to PCB
+- name: Gingerbread
+  function: SVG to PCB
   url: https://gingerbread.vfmod.com/
   tagline: Front panel artwork into fabrication-ready PCBs.
   body: >-
@@ -28,7 +29,8 @@
     - Round-trip through Inkscape for the detailed work
     - Mirrored export for back-layer artwork
 
-- name: Sample Editor
+- name: MorphEdit
+  function: Sample Editor
   url: https://audioedit.carlosedp.com/
   tagline: Reel and audio editor for Eurorack samplers.
   body: >-
