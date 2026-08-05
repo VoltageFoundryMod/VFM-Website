@@ -43,3 +43,18 @@
     - Tempo and pitch shifting, fades, cropping, concatenation, normalize
     - Export at Morphagene's 48kHz/32-bit, or any rate and depth you need
     - Batch processing and per-splice export
+
+- name: Chaos Attractors
+  function: Chaos Simulator
+  url: https://chaos.vfmod.com/
+  tagline: Explore the strange attractors of chaotic systems.
+  body: >-
+    A simple, interactive simulator of chaotic systems. Adjust the parameters and
+    watch the strange attractors emerge in real time. No installation required.
+  card: What it handles
+  features:
+    - Lorenz, Rössler, and other classic chaotic systems
+    - Real-time visualization of the attractors
+    - Adjustable parameters to explore different behaviors
+    - Export attractor images for use in your own projects
+    - Create and simulate your own chaotic systems with custom equations
