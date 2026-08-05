@@ -44,7 +44,7 @@
   series: Forge Series
   hp: 6HP
   src: ForgeSeries/apps/clk
-  modulargrid: https://modulargrid.net/e/other-unknown-clockforge-by-voltage-foundry-modular
+  modulargrid: https://modulargrid.net/e/voltage-foundry-modular-clockforge
   tags:
     - Clock generator
     - Clock modulator
@@ -58,7 +58,7 @@
   series: Forge Series
   hp: 6HP
   src: ForgeSeries/apps/dq
-  modulargrid: ~
+  modulargrid: https://modulargrid.net/e/voltage-foundry-modular-noteforge
   tags:
     - Quantizer
     - Polyphonic
@@ -74,7 +74,7 @@
   series: Forge Series
   hp: 6HP
   src: ForgeSeries/apps/scp
-  modulargrid: https://modulargrid.net/e/other-unknown-forgeview-by-voltage-foundry-modular
+  modulargrid: https://modulargrid.net/e/voltage-foundry-modular-forgeview
   tags:
     - Visual
     - Polyphonic
@@ -89,7 +89,7 @@
   series: Forge Series
   hp: 6HP
   src: ForgeSeries/apps/gen
-  modulargrid: ~
+  modulargrid: https://modulargrid.net/e/voltage-foundry-modular-gravityforge
   tags:
     - Sequencer
     - Random
@@ -132,7 +132,7 @@
   # This repo predates the convention: capitalised folder, prefixed panel name.
   images: Images
   panel: Images/IronMix_Front.png
-  modulargrid: https://modulargrid.net/e/other-unknown-ironmix-by-voltage-foundry-modular
+  modulargrid: https://modulargrid.net/e/voltage-foundry-modular-ironmix
   tags:
     - Mixer
     - Headphone amp
@@ -140,3 +140,18 @@
     - Analog
     - Utility
     - 4HP
+
+- slug: chaosforge
+  name: Chaos Forge
+  tagline: Dual chaotic-attractor modulation source
+  series: Forge Series
+  hp: 6HP
+  src: ForgeSeries/apps/att
+  modulargrid: https://modulargrid.net/e/voltage-foundry-modular-chaosforge
+  tags:
+    - Modulation
+    - Random
+    - Dual
+    - Digital
+    - Hardware clone
+    - 6HP
