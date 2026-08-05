@@ -44,7 +44,7 @@
     - Export at Morphagene's 48kHz/32-bit, or any rate and depth you need
     - Batch processing and per-splice export
 
-- name: Chaos Attractors
+- name: Strange Attractors
   function: Chaos Simulator
   url: https://chaos.vfmod.com/
   tagline: Explore the strange attractors of chaotic systems.
