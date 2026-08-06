@@ -12,6 +12,10 @@
     {{ block "main" . }}{{ end }}
   </main>
   {{ partial "footer.html" . }}
+  <button class="to-top" type="button" aria-label="Back to top">
+    <span class="to-top-arrow" aria-hidden="true"></span>
+  </button>
+  <script src="{{ `js/to-top.js` | relURL }}" defer></script>
 </body>
 
 </html>

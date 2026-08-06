@@ -136,9 +136,63 @@ img {
   text-decoration: none;
 }
 
+/* Hamburger — hidden until the header runs out of room (see Responsive). */
+.nav-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  flex: none;
+}
+.nav-toggle:hover {
+  border-color: var(--molten);
+}
+.nav-toggle-bars,
+.nav-toggle-bars::before,
+.nav-toggle-bars::after {
+  display: block;
+  width: 20px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+.nav-toggle-bars {
+  position: relative;
+  margin: 0 auto;
+}
+.nav-toggle-bars::before,
+.nav-toggle-bars::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+.nav-toggle-bars::before {
+  top: -6px;
+}
+.nav-toggle-bars::after {
+  top: 6px;
+}
+.nav-open .nav-toggle-bars {
+  background: transparent;
+}
+.nav-open .nav-toggle-bars::before {
+  transform: translateY(6px) rotate(45deg);
+}
+.nav-open .nav-toggle-bars::after {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
 /* ── Hero ───────────────────────────────────────────────────────────────── */
 .hero {
-  padding: 84px 0 60px;
+  padding: 84px 0 20px;
 }
 .hero-inner {
   display: grid;
@@ -271,8 +325,8 @@ img {
   margin: 0;
 }
 section > .wrap {
-  padding-top: 46px;
-  padding-bottom: 46px;
+  padding-top: 26px;
+  padding-bottom: 26px;
 }
 .catalog {
   border-top: 1px solid var(--line);
@@ -406,6 +460,13 @@ section > .wrap {
   gap: 40px;
   align-items: center;
   padding: 0;
+}
+/* Grid items default to min-width:auto, so the unbreakable <pre> line inside
+   .get-card would size the whole column to the code width and blow past the
+   slider viewport. Zeroing it lets the <pre>'s own overflow-x scroll instead. */
+.get-inner > *,
+.tool-inner > * {
+  min-width: 0;
 }
 .get-copy h2 {
   font-size: clamp(1.7rem, 3vw, 2.2rem);
@@ -586,6 +647,7 @@ section > .wrap {
 }
 .footer-inner {
   display: flex;
+  margin: 10px;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
@@ -623,6 +685,7 @@ section > .wrap {
   text-decoration: none;
 }
 .footer-legal {
+  margin-left: 10px;
   padding: 14px 0 30px;
   border-top: 1px solid var(--line);
 }
@@ -854,6 +917,57 @@ section > .wrap {
   padding-left: 1.4em;
 }
 
+/* ── Back to top ────────────────────────────────────────────────────────── */
+/* Shown at every width; JS reveals it past 600px of scroll. */
+.to-top {
+  display: block;
+  position: fixed;
+  right: 18px;
+  bottom: calc(18px + env(safe-area-inset-bottom));
+  z-index: 25;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: rgba(25, 29, 36, 0.92);
+  backdrop-filter: blur(10px);
+  color: var(--text);
+  cursor: pointer;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+.to-top.is-visible {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.to-top:hover {
+  border-color: var(--molten);
+  color: var(--molten-2);
+}
+.to-top-arrow {
+  display: block;
+  width: 10px;
+  height: 10px;
+  margin: 3px auto 0;
+  border-top: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+  transform: rotate(45deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .to-top {
+    transition: none;
+    transform: none;
+  }
+}
+
 /* ── Responsive ─────────────────────────────────────────────────────────── */
 @media (max-width: 860px) {
   .hero-inner {
@@ -870,6 +984,11 @@ section > .wrap {
   .tool-inner {
     grid-template-columns: 1fr;
   }
+  /* No room to swipe a code block on a phone — wrap the long clone URL. */
+  .get-card pre {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
   .module-header {
     grid-template-columns: 1fr;
     text-align: center;
@@ -884,12 +1003,45 @@ section > .wrap {
     justify-content: center;
   }
 }
-@media (max-width: 520px) {
-  .site-nav {
-    gap: 16px;
+@media (max-width: 860px) {
+  .nav-toggle {
+    display: block;
   }
-  .site-nav a:nth-child(2) {
+  /* Positions against .site-header, which is already sticky (= positioned). */
+  .site-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 30;
+    flex-direction: column;
+    gap: 0;
+    padding: 6px 24px 12px;
+    background: rgba(13, 15, 18, 0.97);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.45);
     display: none;
+  }
+  .nav-open .site-nav {
+    display: flex;
+  }
+  .site-nav a {
+    padding: 12px 2px;
+    font-size: 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .site-nav a:last-child {
+    border-bottom: 0;
+  }
+}
+@media (max-width: 520px) {
+  .brand-mark {
+    width: 40px;
+    height: 40px;
+  }
+  .brand-name {
+    font-size: 1.28rem;
   }
   .hero {
     padding: 54px 0 40px;

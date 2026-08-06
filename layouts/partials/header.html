@@ -5,11 +5,16 @@
         style="mask-image: url('{{ `img/vfm-mark.svg` | relURL }}'); -webkit-mask-image: url('{{ `img/vfm-mark.svg` | relURL }}');"></i>
       <span class="brand-name">Voltage Foundry<span class="brand-sub">Modular</span></span>
     </a>
-    <nav class="site-nav">
+    <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+      <span class="nav-toggle-bars" aria-hidden="true"></span>
+    </button>
+    <nav class="site-nav" id="site-nav">
       <a href="{{ site.Home.RelPermalink }}#modules">Modules</a>
       <a href="{{ site.Home.RelPermalink }}#get">Get it</a>
       <a href="{{ site.Home.RelPermalink }}#tools">Tools</a>
       <a href="{{ site.Params.github_org }}">GitHub</a>
+      <a href="{{ site.Params.online_shop }}">Online Shop</a>
     </nav>
   </div>
 </header>
+<script src="{{ `js/nav-toggle.js` | relURL }}" defer></script>
