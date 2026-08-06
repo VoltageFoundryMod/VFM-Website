@@ -48,9 +48,10 @@
   tags:
     - Clock generator
     - Clock modulator
+    - Envelope generator
+    - Euclidean sequencer
     - Digital
     - Hardware clone
-    - 6HP
 
 - slug: noteforge
   name: Note Forge
@@ -61,12 +62,11 @@
   modulargrid: https://modulargrid.net/e/voltage-foundry-modular-noteforge
   tags:
     - Quantizer
-    - Polyphonic
+    - Envelope generator
     - Dual
     - Digital
     - Hardware clone
     - Utility
-    - 6HP
 
 - slug: forgeview
   name: Forge View
@@ -77,11 +77,11 @@
   modulargrid: https://modulargrid.net/e/voltage-foundry-modular-forgeview
   tags:
     - Visual
-    - Polyphonic
+    - Tuner
+    - Dual
     - Digital
     - Utility
     - Hardware clone
-    - 6HP
 
 - slug: gravityforge
   name: Gravity Forge
@@ -96,7 +96,6 @@
     - Dual
     - Digital
     - Hardware clone
-    - 6HP
 
 - slug: alloyflux
   name: Alloy Flux
@@ -116,9 +115,9 @@
     - Polyphonic
     - Synth voice
     - Complex
+    - Effects
     - Digital
     - Hardware clone
-    - 14HP
 
 - slug: ironmix
   name: IRONMix
@@ -135,11 +134,11 @@
   modulargrid: https://modulargrid.net/e/voltage-foundry-modular-ironmix
   tags:
     - Mixer
+    - Output
     - Headphone amp
     - Line level
     - Analog
     - Utility
-    - 4HP
 
 - slug: chaosforge
   name: Chaos Forge
@@ -154,4 +153,3 @@
     - Dual
     - Digital
     - Hardware clone
-    - 6HP
