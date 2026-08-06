@@ -432,6 +432,11 @@ section > .wrap {
   background: rgba(255, 106, 43, 0.12);
   border: 1px solid rgba(255, 106, 43, 0.28);
 }
+.chip-hp {
+  background: rgba(255, 106, 43, 0.12);
+  color: var(--steel);
+  border-color: rgba(110, 168, 255, 0.3);
+}
 /* Modules with no VCV Rack version (`vcv: false` in data/modules.yml). */
 .chip-hw {
   color: var(--steel);

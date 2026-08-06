@@ -2,25 +2,28 @@
 Renders one catalog card. Context (.) is a module record from
 hugo.Data.modules.
 
-    `vcv: false` marks a hardware-only module (no VCV Rack version); absent means
-    yes, so only an explicit false flips the chip.
-    */}}
-    {{ $panel := partial "module-panel.html" . }}
-    {{ $url := printf "modules/%s/" .slug | relURL }}
-    <a class="card" href="{{ $url }}">
-      <div class="card-panel">
-        <img loading="lazy" src="{{ $panel }}" alt="{{ .name }} panel">
+`vcv: false` marks a hardware-only module (no VCV Rack version); absent means
+yes, so only an explicit false flips the chip.
+*/}}
+{{ $panel := partial "module-panel.html" . }}
+{{ $url := printf "modules/%s/" .slug | relURL }}
+<a class="card" href="{{ $url }}">
+  <div class="card-panel">
+    <img loading="lazy" src="{{ $panel }}" alt="{{ .name }} panel">
+  </div>
+  <div class="card-body">
+    <div class="card-head">
+      <h3>{{ .name }}</h3>
+      <div class="card-chips">
+        {{ with .hp }}<span class="chip chip-hp">{{ . }}</span>{{ end }}
+        {{ with .series }}<span class="chip chip-series">{{ . }}</span>{{ end }}
+        {{ if eq .vcv false }}<span class="chip chip-hw">Hardware only</span>{{ end }}
       </div>
-      <div class="card-body">
-        <div class="card-head">
-          <h3>{{ .name }}</h3>
-          {{ with .series }}<span class="chip chip-series">{{ . }}</span>{{ end }}
-          {{ if eq .vcv false }}<span class="chip chip-hw">Hardware only</span>{{ end }}
-        </div>
-        <p class="card-tagline">{{ .tagline }}</p>
-        <div class="card-tags">
-          {{ range first 8 .tags }}<span class="tag">{{ . }}</span>{{ end }}
-        </div>
-        <span class="card-cta">Read the manual &rarr;</span>
-      </div>
-    </a>
+    </div>
+    <p class="card-tagline">{{ .tagline }}</p>
+    <div class="card-tags">
+      {{ range first 8 .tags }}<span class="tag">{{ . }}</span>{{ end }}
+    </div>
+    <span class="card-cta">Read the manual &rarr;</span>
+  </div>
+</a>
