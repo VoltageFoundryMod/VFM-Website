@@ -153,3 +153,18 @@
     - Dual
     - Digital
     - Hardware clone
+
+- slug: weaveforge
+  name: Weave Forge
+  tagline: Two Turing Machines That Trade Bits
+  series: Forge Series
+  hp: 6HP
+  src: ForgeSeries/apps/wea
+  modulargrid: https://modulargrid.net/e/voltage-foundry-modular-weaveforge
+  tags:
+    - Sequencer
+    - Modulation
+    - Random
+    - Dual
+    - Digital
+    - Hardware clone
