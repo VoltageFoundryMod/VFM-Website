@@ -53,20 +53,48 @@
     - Digital
     - Hardware clone
 
-- slug: noteforge
-  name: Note Forge
-  tagline: Dual CV quantizer with per-channel scales, envelopes and glide.
+- slug: gravityforge
+  name: Gravity Forge
+  tagline: Dual physics-based generative sequencer — notes fall out of bouncing balls.
   series: Forge Series
   hp: 6HP
-  src: ForgeSeries/apps/dq
-  modulargrid: https://modulargrid.net/e/voltage-foundry-modular-noteforge
+  src: ForgeSeries/apps/gen
+  modulargrid: https://modulargrid.net/e/voltage-foundry-modular-gravityforge
   tags:
-    - Quantizer
-    - Envelope generator
+    - Sequencer
+    - Random
     - Dual
     - Digital
     - Hardware clone
-    - Utility
+
+- slug: chaosforge
+  name: Chaos Forge
+  tagline: Dual chaotic-attractor modulation source
+  series: Forge Series
+  hp: 6HP
+  src: ForgeSeries/apps/att
+  modulargrid: https://modulargrid.net/e/voltage-foundry-modular-chaosforge
+  tags:
+    - Modulation
+    - Random
+    - Dual
+    - Digital
+    - Hardware clone
+
+- slug: weaveforge
+  name: Weave Forge
+  tagline: Two Turing Machines That Trade Bits
+  series: Forge Series
+  hp: 6HP
+  src: ForgeSeries/apps/wea
+  modulargrid: https://modulargrid.net/e/voltage-foundry-modular-weaveforge
+  tags:
+    - Sequencer
+    - Modulation
+    - Random
+    - Dual
+    - Digital
+    - Hardware clone
 
 - slug: forgeview
   name: Forge View
@@ -83,19 +111,20 @@
     - Utility
     - Hardware clone
 
-- slug: gravityforge
-  name: Gravity Forge
-  tagline: Dual physics-based generative sequencer — notes fall out of bouncing balls.
+- slug: noteforge
+  name: Note Forge
+  tagline: Dual CV quantizer with per-channel scales, envelopes and glide.
   series: Forge Series
   hp: 6HP
-  src: ForgeSeries/apps/gen
-  modulargrid: https://modulargrid.net/e/voltage-foundry-modular-gravityforge
+  src: ForgeSeries/apps/dq
+  modulargrid: https://modulargrid.net/e/voltage-foundry-modular-noteforge
   tags:
-    - Sequencer
-    - Random
+    - Quantizer
+    - Envelope generator
     - Dual
     - Digital
     - Hardware clone
+    - Utility
 
 - slug: alloyflux
   name: Alloy Flux
@@ -139,32 +168,3 @@
     - Line level
     - Analog
     - Utility
-
-- slug: chaosforge
-  name: Chaos Forge
-  tagline: Dual chaotic-attractor modulation source
-  series: Forge Series
-  hp: 6HP
-  src: ForgeSeries/apps/att
-  modulargrid: https://modulargrid.net/e/voltage-foundry-modular-chaosforge
-  tags:
-    - Modulation
-    - Random
-    - Dual
-    - Digital
-    - Hardware clone
-
-- slug: weaveforge
-  name: Weave Forge
-  tagline: Two Turing Machines That Trade Bits
-  series: Forge Series
-  hp: 6HP
-  src: ForgeSeries/apps/wea
-  modulargrid: https://modulargrid.net/e/voltage-foundry-modular-weaveforge
-  tags:
-    - Sequencer
-    - Modulation
-    - Random
-    - Dual
-    - Digital
-    - Hardware clone
