@@ -40,15 +40,13 @@ generates, for each module:
 workflow have none of their own. Each module names one `src` (`<repo>` or
 `<repo>/<path in it>`) and everything else follows by convention:
 
-| | |
-| --- | --- |
-| `<src>/Manual.md` | the manual |
-| `<src>/images/` | its image folder |
+|                          |                        |
+| ------------------------ | ---------------------- |
+| `<src>/Manual.md`        | the manual             |
+| `<src>/images/`          | its image folder       |
 | `<src>/images/Front.png` | the catalog-card panel |
 
-`manual` / `images` / `panel` override one of those when a repo differs (IRONMix
-predates the convention and capitalises `Images/`); `images: ~` means the module
-has no image folder at all.
+`manual` / `images` / `panel` override one of those when a repo differs. `images: ~` means the module has no image folder at all.
 
 The cloned `modules/` dir and the generated paths are git-ignored. The script has
 **no third-party dependencies**: it pulls only the handful of scalar fields it
