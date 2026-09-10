@@ -126,6 +126,23 @@
     - Hardware clone
     - Utility
 
+- slug: forgeexp1
+  name: Forge Expander 1
+  # Not a standalone module: it has no firmware of its own and is powered and
+  # driven by whichever Forge module it is ribboned to. Its manual lists the
+  # hosts that support it; each host's own manual covers what it does with the
+  # extra jacks. Lives at apps/exp1 in the monorepo — a docs-and-artwork
+  # directory with no firmware next to it, unlike the other apps/ entries.
+  tagline: 4HP expander — four more outputs and a CV input for Forge Series modules.
+  series: Forge Series
+  hp: 4HP
+  src: ForgeSeries/apps/exp1
+  modulargrid: https://modulargrid.net/e/voltage-foundry-modular-forge-expander-1
+  tags:
+    - Expander
+    - Utility
+    - Digital
+
 - slug: alloyflux
   name: Alloy Flux
   # draft: hidden from the site and skipped by the sync/CI until the repo is
