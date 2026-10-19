@@ -58,3 +58,20 @@
     - Adjustable parameters to explore different behaviors
     - Export attractor images for use in your own projects
     - Create and simulate your own chaotic systems with custom equations
+
+- name: Diii
+  function: Web Editor
+  url: https://diii.vfmod.com/
+  tagline: A web editor for Monome iii-enabled devices (Grid, Arc, Crow).
+  body: >-
+    Edit and manage Lua scripts for your Monome iii-enabled devices directly from
+    your browser.
+    No installation required, and all changes are applied in real time.
+  card: What it handles
+  features:
+    - Real-time editing of Monome iii devices
+    - Online Lua script editor with real-time syntax checking
+    - Supports Grid, Arc, and Crow
+    - Immediate feedback and updates
+    - No installation required
+    - Works entirely in the browser
