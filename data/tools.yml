@@ -60,7 +60,7 @@
     - Create and simulate your own chaotic systems with custom equations
 
 - name: Diii
-  function: Web Editor
+  function: Diii Web
   url: https://diii.vfmod.com/
   tagline: A web editor for Monome iii-enabled devices (Grid, Arc, Crow).
   body: >-
