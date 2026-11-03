@@ -13,7 +13,12 @@
       </div>
     </div>
     <div class="hero-art" aria-hidden="true">
-      <img src="{{ `img/VFM-Logo-Transp.png` | relURL }}" alt="{{ $co.name }} logo">
+      {{ $heroCfg := images.Config "/static/img/VFM-Logo-Transp.png" }}
+      <picture>
+        <source srcset="{{ `img/VFM-Logo-Transp.webp` | relURL }}" type="image/webp">
+        <img src="{{ `img/VFM-Logo-Transp.png` | relURL }}" alt="{{ $co.name }} logo"
+          width="{{ $heroCfg.Width }}" height="{{ $heroCfg.Height }}" fetchpriority="high" decoding="async">
+      </picture>
     </div>
   </div>
 </section>

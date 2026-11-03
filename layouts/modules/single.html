@@ -1,6 +1,7 @@
 {{ define "main" }}
 {{ $m := index (where hugo.Data.modules "slug" .Params.slug) 0 }}
 {{ $panel := partial "module-panel.html" $m }}
+{{ $panelCfg := partial "module-panel-config.html" $m }}
 <article class="module">
   <div class="wrap">
     <p class="crumbs"><a href="{{ site.Home.RelPermalink }}#modules">&larr; All modules</a></p>
@@ -8,7 +9,8 @@
     <header class="module-header">
       <div class="module-panel-wrap">
         <div class="module-panel" data-zoom>
-          <img src="{{ $panel }}" alt="{{ $m.name }} panel">
+          <img src="{{ $panel }}" alt="{{ $m.name }} panel"
+            width="{{ $panelCfg.Width }}" height="{{ $panelCfg.Height }}">
         </div>
         <p class="panel-zoom-hint">Hover the panel to zoom</p>
       </div>

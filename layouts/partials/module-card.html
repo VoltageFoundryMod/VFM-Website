@@ -6,10 +6,12 @@ hugo.Data.modules.
 yes, so only an explicit false flips the chip.
 */}}
 {{ $panel := partial "module-panel.html" . }}
+{{ $panelCfg := partial "module-panel-config.html" . }}
 {{ $url := printf "modules/%s/" .slug | relURL }}
 <a class="card" href="{{ $url }}">
   <div class="card-panel">
-    <img loading="lazy" src="{{ $panel }}" alt="{{ .name }} panel">
+    <img loading="lazy" src="{{ $panel }}" alt="{{ .name }} panel"
+      width="{{ $panelCfg.Width }}" height="{{ $panelCfg.Height }}">
   </div>
   <div class="card-body">
     <div class="card-head">

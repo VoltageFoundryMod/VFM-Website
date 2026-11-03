@@ -1,0 +1,8 @@
+{{/*
+image.Config (Width/Height) of a module's synced catalog-card panel, so <img>
+tags can ship explicit dimensions and avoid layout shift. Context (.) is a
+module record from hugo.Data.modules. Mirrors the path built in
+module-panel.html.
+*/ -}}
+{{- $ext := path.Ext (.panel | default "images/Front.png") -}}
+{{- return (images.Config (printf "/static/panels/%s%s" .slug $ext)) -}}
