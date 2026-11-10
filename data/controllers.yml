@@ -46,9 +46,8 @@
     - Clock sync
     - Open hardware
   src: achene/docs/manual
-  org: carlosedp
   private: true
-  source: https://github.com/carlosedp/achene
+  source: https://github.com/VoltageFoundryMod/achene
   cta: Patch it in greenhouse
   url: https://greenhouse.vfmod.com/
 
@@ -69,10 +68,7 @@
     - monome serial
     - USB MIDI
     - Open firmware
-  # the repo is carlosedp/parterre now; this name matches the local folder
-  # (../Open-Grid-Controller), and a clone by it follows GitHub's redirect
-  src: Open-Grid-Controller/docs/manual
-  org: carlosedp
-  source: https://github.com/carlosedp/parterre
+  src: parterre/docs/manual
+  source: https://github.com/VoltageFoundryMod/parterre
   cta: Patch it in greenhouse
   url: https://greenhouse.vfmod.com/
