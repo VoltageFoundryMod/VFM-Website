@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <title>achene</title>
+  <defs>
+    <radialGradient id="bg" cx="0.5" cy="0.3" r="0.85">
+      <stop offset="0" stop-color="#4a2a50"/>
+      <stop offset="1" stop-color="#140c18"/>
+    </radialGradient>
+  </defs>
+  <rect width="200" height="200" rx="44" fill="url(#bg)"/>
+  <!-- the pappus: the seed's parachute -->
+  <g stroke="#f3ecd8" stroke-width="4.5" stroke-linecap="round" fill="none">
+    <path d="M100 62 L50.8 53.3"/><circle cx="50.8" cy="53.3" r="3.2" fill="#f3ecd8" stroke="none"/><path d="M100 62 L54.1 42.2"/><circle cx="54.1" cy="42.2" r="3.2" fill="#f3ecd8" stroke="none"/><path d="M100 62 L59.9 32.1"/><circle cx="59.9" cy="32.1" r="3.2" fill="#f3ecd8" stroke="none"/><path d="M100 62 L67.9 23.7"/><circle cx="67.9" cy="23.7" r="3.2" fill="#f3ecd8" stroke="none"/><path d="M100 62 L77.6 17.3"/><circle cx="77.6" cy="17.3" r="3.2" fill="#f3ecd8" stroke="none"/><path d="M100 62 L88.5 13.3"/><circle cx="88.5" cy="13.3" r="3.2" fill="#f3ecd8" stroke="none"/><path d="M100 62 L100.0 12.0"/><circle cx="100.0" cy="12.0" r="3.2" fill="#f3ecd8" stroke="none"/><path d="M100 62 L111.5 13.3"/><circle cx="111.5" cy="13.3" r="3.2" fill="#f3ecd8" stroke="none"/><path d="M100 62 L122.4 17.3"/><circle cx="122.4" cy="17.3" r="3.2" fill="#f3ecd8" stroke="none"/><path d="M100 62 L132.1 23.7"/><circle cx="132.1" cy="23.7" r="3.2" fill="#f3ecd8" stroke="none"/><path d="M100 62 L140.1 32.1"/><circle cx="140.1" cy="32.1" r="3.2" fill="#f3ecd8" stroke="none"/><path d="M100 62 L145.9 42.2"/><circle cx="145.9" cy="42.2" r="3.2" fill="#f3ecd8" stroke="none"/><path d="M100 62 L149.2 53.3"/><circle cx="149.2" cy="53.3" r="3.2" fill="#f3ecd8" stroke="none"/>
+    <!-- the beak, down to the seed -->
+    <path d="M100 62 V122" stroke-width="5"/>
+  </g>
+  <!-- the achene: the seed itself -->
+  <path d="M100 116 C112 124 114 146 100 166 C86 146 88 124 100 116 Z" fill="#ffb347"/>
+  <path d="M100 124 V156" stroke="#b5651d" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+</svg>

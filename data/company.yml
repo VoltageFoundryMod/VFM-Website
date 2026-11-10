@@ -4,27 +4,29 @@
 name: Voltage Foundry Modular
 short_name: VFM
 lead: >-
-  Voltage Foundry Modular designs and builds open-source Eurorack modules. Every
-  one is real, buildable hardware, and the firmware-driven ones also ship as
-  pixel-accurate VCV Rack plugins — the same firmware that runs on the metal
-  runs inside Rack, so you can try them before you buy or build.
+  Voltage Foundry Modular designs and builds open-source music hardware:
+  Eurorack modules and the controllers that play alongside them. Try any of
+  them before you buy or build — the modules in VCV Rack, running their own
+  firmware, and the controllers in greenhouse, right in the browser.
 
 # The pitch shown as three feature blurbs on the home page.
 pillars:
   - title: Hardware you can build
     icon: "&#9874;" # hammer & pick
     body: >-
-      Every module is fully open hardware — schematics, panels and firmware are
-      published so you can build, mod and calibrate your own.
-  - title: Try it in VCV Rack
+      Every module and controller is fully open hardware — schematics, panels
+      and firmware are published so you can build, mod and calibrate your own.
+  - title: Try it before you build it
     icon: "&#9835;" # beamed note
     body: >-
-      The VCV Rack plugins are not reimplementations. They run the actual
-      module firmware with the OLED emulated pixel for pixel.
-  - title: One plugin, one install
+      The modules run their actual firmware in VCV Rack, the OLED emulated
+      pixel for pixel. The controllers play in greenhouse, right in the
+      browser, with nothing to install.
+  - title: Software that keeps up
     icon: "&#9881;" # gear
     body: >-
-      Every module with a Rack version is bundled into a single VCV plugin, kept
-      in sync with each module's own repository. (Soon on VCV Library!)
+      Every module with a Rack version is bundled into a single VCV plugin
+      (soon on VCV Library!), and the controllers are scripted, patched and
+      updated from greenhouse.
 
 author: Carlos Eduardo de Paula

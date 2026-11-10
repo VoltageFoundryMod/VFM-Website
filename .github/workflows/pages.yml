@@ -10,6 +10,8 @@ name: Build & deploy site
 # runs sync_manuals.py, which reads data/modules.yml (the only list of modules),
 # clones what it names into modules/ and copies each manual + images into the
 # site, so the published manuals always match those repos' default branch.
+# data/controllers.yml (achene, parterre) is synced the same way, into pages at
+# the site root; a `private: true` controller is skipped here (no checkout).
 
 on:
   push:

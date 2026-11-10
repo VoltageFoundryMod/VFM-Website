@@ -54,6 +54,8 @@ import sys
 # This script lives at the site root.
 SITE = os.path.dirname(os.path.abspath(__file__))
 DATA_FILE = os.path.join(SITE, "data", "modules.yml")
+# Controllers (achene, parterre): the same sync, a page at the site root.
+CONTROLLERS_FILE = os.path.join(SITE, "data", "controllers.yml")
 CLONE_DIR = os.path.join(SITE, "modules")  # gitignored; see .gitignore
 SIBLING_DIR = os.path.dirname(SITE)  # ../  — where local checkouts live
 GITHUB_ORG = "VoltageFoundryMod"
@@ -64,7 +66,7 @@ DEFAULT_IMAGES = "images"
 DEFAULT_PANEL = "images/Front.png"
 
 # Scalar fields the sync needs from each module block in modules.yml.
-FIELDS = ("slug", "name", "src", "manual", "images", "panel", "draft")
+FIELDS = ("slug", "name", "src", "manual", "images", "panel", "draft", "org", "private")
 
 
 def parse_modules(path: str) -> list[dict[str, str | None]]:
@@ -124,10 +126,17 @@ def is_ancestor(parent: str, child: str) -> bool:
 class Module:
     """One entry from modules.yml, with the convention already applied."""
 
-    def __init__(self, entry: dict[str, str | None]) -> None:
+    def __init__(self, entry: dict[str, str | None], controller: bool = False) -> None:
         self.slug = entry.get("slug")
         self.name = entry.get("name") or self.slug
         self.draft = (entry.get("draft") or "").lower() == "true"
+        # A controller's page is /<slug>/ with its images beside it in the
+        # page bundle; a module's is /modules/<slug>/ with a catalog panel.
+        self.controller = controller
+        # Repos outside the VoltageFoundryMod org name their owner.
+        self.org = entry.get("org") or GITHUB_ORG
+        # Not public yet: a local checkout or nothing (the page goes without).
+        self.private = (entry.get("private") or "").lower() == "true"
 
         src = entry.get("src")
         if not src:
@@ -159,7 +168,7 @@ class Module:
         isn't already an ancestor of one of them — naming it unconditionally
         would ask for `apps/clk`, i.e. the entire module.
         """
-        dirs = {posixpath.dirname(self.rel(self.panel))}
+        dirs = set() if self.controller else {posixpath.dirname(self.rel(self.panel))}
         if self.images:
             dirs.add(self.rel(self.images).rstrip("/"))
         dirs.discard("")
@@ -173,19 +182,27 @@ class Module:
 # ── acquiring the sources ────────────────────────────────────────────────────
 
 
-def clone_url(repo: str) -> str:
-    return f"https://github.com/{GITHUB_ORG}/{repo}.git"
+def clone_url(repo: str, org: str = GITHUB_ORG) -> str:
+    return f"https://github.com/{org}/{repo}.git"
 
 
-def repo_root(repo: str, mods: list[Module]) -> str:
-    """Return a checkout of `repo`, cloning or updating one if needed."""
+def repo_root(repo: str, mods: list[Module]) -> str | None:
+    """Return a checkout of `repo`, cloning or updating one if needed.
+
+    None for a private repo with no local checkout: it can't be cloned (CI),
+    so its pages go out without a manual.
+    """
     sibling = os.path.join(SIBLING_DIR, repo)
     if os.path.isdir(os.path.join(sibling, ".git")):
         print(f"== {repo}: using local checkout at ../{repo}")
         return sibling
 
+    if any(m.private for m in mods):
+        print(f"== {repo}: private and no checkout at ../{repo}, so no manual")
+        return None
+
     dest = os.path.join(CLONE_DIR, repo)
-    url = clone_url(repo)
+    url = clone_url(repo, mods[0].org)
 
     if os.path.isdir(os.path.join(dest, ".git")):
         print(f"== {repo}: updating modules/{repo}")
@@ -209,6 +226,30 @@ def repo_root(repo: str, mods: list[Module]) -> str:
 
 
 # ── syncing into the site ────────────────────────────────────────────────────
+
+
+def sync_controller(m: Module, root: str | None) -> None:
+    """A controller's page bundle: content/<slug>/index.md (the manual, or
+    nothing when there is none to sync) and its images beside it, which Hugo
+    publishes at /<slug>/<images>/, where the manual's relative links point."""
+    out_dir = os.path.join(SITE, "content", m.slug)
+    os.makedirs(out_dir, exist_ok=True)
+    body = ""
+    if root:
+        manual_path = os.path.join(root, m.rel(m.manual).replace("/", os.sep))
+        if not os.path.isfile(manual_path):
+            die(f"{m.slug}: manual not found: {manual_path}")
+        with open(manual_path, encoding="utf-8") as fh:
+            body = fh.read()
+        if m.images:
+            img_src = os.path.join(root, m.rel(m.images).replace("/", os.sep))
+            if not os.path.isdir(img_src):
+                die(f"{m.slug}: images dir not found: {img_src}")
+            shutil.copytree(img_src, os.path.join(out_dir, m.images.rstrip("/")))
+    title = m.name.replace('"', "'")
+    front = f'---\ntitle: "{title}"\nslug: {m.slug}\ntype: controllers\nurl: /{m.slug}/\n---\n\n'
+    with open(os.path.join(out_dir, "index.md"), "w", encoding="utf-8") as fh:
+        fh.write(front + body)
 
 
 def sync(m: Module, root: str) -> None:
@@ -249,6 +290,8 @@ def sync(m: Module, root: str) -> None:
 
 def main() -> None:
     modules = [Module(e) for e in parse_modules(DATA_FILE)]
+    if os.path.isfile(CONTROLLERS_FILE):
+        modules += [Module(e, controller=True) for e in parse_modules(CONTROLLERS_FILE)]
     live = [m for m in modules if not m.draft]
     for m in modules:
         if m.draft:
@@ -266,13 +309,19 @@ def main() -> None:
     # Fresh start so removed modules / renamed images never linger.
     for d in ("content/modules", "static/modules", "static/panels"):
         shutil.rmtree(os.path.join(SITE, d), ignore_errors=True)
+    for m in modules:
+        if m.controller:
+            shutil.rmtree(os.path.join(SITE, "content", m.slug), ignore_errors=True)
     os.makedirs(os.path.join(SITE, "static", "panels"), exist_ok=True)
 
     for m in live:
         print(f"-> {m.name} ({m.slug}) from {m.repo}/{m.sub}".rstrip("/"))
-        sync(m, roots[m.repo])
+        if m.controller:
+            sync_controller(m, roots[m.repo])
+        else:
+            sync(m, roots[m.repo])
 
-    print(f"Synced {len(live)} module(s) from {len(by_repo)} repo(s).")
+    print(f"Synced {len(live)} module(s) and controller(s) from {len(by_repo)} repo(s).")
 
 
 if __name__ == "__main__":

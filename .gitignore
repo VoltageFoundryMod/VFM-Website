@@ -10,5 +10,7 @@
 # Generated at build time by sync_manuals.py from the cloned module repos.
 # Never commit these — they are regenerated on every deploy.
 /content/modules/
+# Controllers' page bundles (content/<slug>/, from data/controllers.yml).
+/content/*/
 /static/panels/
 /static/modules/

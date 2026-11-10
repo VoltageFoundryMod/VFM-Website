@@ -16,8 +16,8 @@
       {{ $heroCfg := images.Config "/static/img/VFM-Logo-Transp.png" }}
       <picture>
         <source srcset="{{ `img/VFM-Logo-Transp.webp` | relURL }}" type="image/webp">
-        <img src="{{ `img/VFM-Logo-Transp.png` | relURL }}" alt="{{ $co.name }} logo"
-          width="{{ $heroCfg.Width }}" height="{{ $heroCfg.Height }}" fetchpriority="high" decoding="async">
+        <img src="{{ `img/VFM-Logo-Transp.png` | relURL }}" alt="{{ $co.name }} logo" width="{{ $heroCfg.Width }}"
+          height="{{ $heroCfg.Height }}" fetchpriority="high" decoding="async">
       </picture>
     </div>
   </div>
@@ -50,6 +50,25 @@
   </div>
 </section>
 
+{{ $controllers := where hugo.Data.controllers "draft" "ne" true }}
+{{ with $controllers }}
+<section id="controllers" class="catalog controllers">
+  <div class="wrap">
+    <header class="section-head">
+      <h2>Controllers</h2>
+      <p>Open hardware that plays the rack and beyond, on the desk or in it. Run their scripts on the device,
+        so they play on their own, and use <a href="https://greenhouse.vfmod.com/" target="_blank"
+          rel="noopener">greenhouse</a> to write, patch and update them from the browser.</p>
+    </header>
+    <div class="card-grid">
+      {{ range . }}
+      {{ partial "controller-card.html" . }}
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+
 <section id="get" class="get">
   <div class="wrap" data-rotate>
     <div class="slider-tabs" role="tablist" aria-label="How to get the modules">
@@ -71,7 +90,8 @@
                 <strong>{{ site.Title }}</strong> — coming to the VCV Library
                 <b>soon</b>. Until then, build it from source or grab a release
                 from the plugin repository and drop it into your VCV Rack plugins folder.
-                <span class="tooltip" title="MacOS is `~/Library/Application Support/Rack2/`, Windows is `C:\Users\<username>\AppData\Local\Rack2\`, and Linux is `~/.local/share/Rack2/`">ⓘ</span>
+                <span class="tooltip"
+                  title="MacOS is `~/Library/Application Support/Rack2/`, Windows is `C:\Users\<username>\AppData\Local\Rack2\`, and Linux is `~/.local/share/Rack2/`">ⓘ</span>
               </p>
               <div class="hero-actions">
                 <a class="btn btn-primary" href="{{ site.Params.vcv_library }}" target="_blank" rel="noopener">VCV

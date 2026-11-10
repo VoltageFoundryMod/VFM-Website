@@ -1,0 +1,41 @@
+{{ define "main" }}
+{{ $c := index (where hugo.Data.controllers "slug" .Params.slug) 0 }}
+<article class="module controller">
+  <div class="wrap">
+    <p class="crumbs"><a href="{{ site.Home.RelPermalink }}#controllers">&larr; All controllers</a></p>
+
+    <header class="module-header">
+      <div class="module-panel-wrap">
+        <div class="module-panel">
+          <img src="{{ printf `products/%s` $c.image | relURL }}" alt="{{ $c.name }}"
+            width="{{ $c.width }}" height="{{ $c.height }}">
+        </div>
+      </div>
+      <div class="module-intro">
+        <div class="module-title">
+          <img class="controller-logo" src="{{ printf `products/%s` $c.logo | relURL }}" alt="" width="48" height="48">
+          <h1>{{ $c.name }}</h1>
+          {{ with $c.status }}<span class="chip chip-soon">{{ . }}</span>{{ end }}
+        </div>
+        <p class="module-tagline">{{ $c.tagline }}</p>
+        <div class="card-tags">
+          {{ with $c.size }}<span class="tag tag-spec">{{ . }}</span>{{ end }}
+          {{ range $c.tags }}<span class="tag">{{ . }}</span>{{ end }}
+        </div>
+        <div class="module-links">
+          {{ with $c.url }}<a class="btn btn-primary" href="{{ . }}" target="_blank" rel="noopener">{{ $c.cta | default "Open greenhouse" }}</a>{{ end }}
+          {{ with $c.source }}<a class="btn btn-ghost" href="{{ . }}" target="_blank" rel="noopener">Source &amp; hardware</a>{{ end }}
+        </div>
+      </div>
+    </header>
+
+    <div class="module-manual">
+      {{ with .Content }}{{ . }}{{ else }}
+      <p class="controller-pending">The full manual is on its way. Until then, {{ $c.name }} can be tried in
+        <a href="{{ $c.url }}" target="_blank" rel="noopener">greenhouse</a>, and its design lives in its
+        {{ with $c.source }}<a href="{{ . }}" target="_blank" rel="noopener">repository</a>{{ else }}repository{{ end }}.</p>
+      {{ end }}
+    </div>
+  </div>
+</article>
+{{ end }}

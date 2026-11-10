@@ -1,0 +1,25 @@
+{{/*
+Renders one controller card. Context (.) is a record from
+hugo.Data.controllers. Links to the controller's page at /<slug>/, which
+sync_manuals.py fills with its manual.
+*/}}
+<a class="card card-controller" id="{{ .slug }}" href="{{ printf `%s/` .slug | relURL }}">
+  <div class="card-panel">
+    <img loading="lazy" src="{{ printf `products/%s` .image | relURL }}" alt="{{ .name }}"
+      width="{{ .width }}" height="{{ .height }}">
+  </div>
+  <div class="card-body">
+    <div class="card-head">
+      <h3><img class="card-logo" src="{{ printf `products/%s` .logo | relURL }}" alt="" width="28" height="28">{{ .name }}</h3>
+      <div class="card-chips">
+        {{ with .status }}<span class="chip chip-soon">{{ . }}</span>{{ end }}
+      </div>
+    </div>
+    <p class="card-tagline">{{ .tagline }}</p>
+    <div class="card-tags">
+      {{ with .size }}<span class="tag tag-spec">{{ . }}</span>{{ end }}
+      {{ range .tags }}<span class="tag">{{ . }}</span>{{ end }}
+    </div>
+    <span class="card-cta">Read more &rarr;</span>
+  </div>
+</a>

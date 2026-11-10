@@ -11,7 +11,9 @@ just the Hugo binary and Python 3.
 ├── hugo.toml            Site-wide settings (baseURL, params, links)
 ├── data/
 │   ├── company.yml       Landing-page copy — edit this for company info
-│   └── modules.yml       Module catalog — the single source of truth
+│   ├── modules.yml       Module catalog — the single source of truth
+│   ├── controllers.yml   Controllers (achene, Open Grid): the home page's second line
+│   └── tools.yml         Workbench tools (greenhouse and the others)
 ├── layouts/
 │   ├── _default/         baseof + section list templates
 │   ├── modules/single.html   the per-module manual page
@@ -52,6 +54,17 @@ The cloned `modules/` dir and the generated paths are git-ignored. The script ha
 **no third-party dependencies**: it pulls only the handful of scalar fields it
 needs out of `modules.yml`, while Hugo reads the same file for all display
 metadata (tags, tagline, series, …). It needs only stock Python 3 and git.
+
+### Controllers
+
+`data/controllers.yml` lists the controllers (achene, parterre) the same way:
+each names a `src` and gets its manual synced, but into a page at the site
+root (`content/<slug>/`, published at `/<slug>/`) with its images beside it in
+the page bundle; the card's picture and icon are committed in
+`static/products/`. Two extra fields: `org`, for a repo outside the
+VoltageFoundryMod org, and `private: true`, for one that isn't public yet,
+synced only from a local checkout. Without one (CI), its page shows the
+overview and a note that the manual is coming.
 
 ### How the sources are fetched
 

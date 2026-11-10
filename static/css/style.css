@@ -450,6 +450,44 @@ section > .wrap {
   margin-top: 4px;
 }
 
+/* ── Controllers (data/controllers.yml) ─────────────────────────────────── */
+.card-head h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.card-controller .card-head {
+  flex-wrap: wrap;
+}
+.card-controller .card-head h3 {
+  white-space: nowrap;
+}
+.card-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+}
+.chip-soon {
+  color: var(--bg);
+  background: var(--molten-2);
+  border: 1px solid var(--molten-2);
+}
+/* a controller's page (layouts/controllers/single.html) */
+.controller .module-title {
+  align-items: center;
+}
+.controller-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+}
+.controller-pending {
+  color: var(--muted);
+}
+.controllers .section-head a {
+  color: var(--molten-2);
+}
+
 /* ── Get section ────────────────────────────────────────────────────────── */
 .get {
   border-top: 1px solid var(--line);

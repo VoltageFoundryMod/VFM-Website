@@ -1,0 +1,78 @@
+# ── Controllers ──────────────────────────────────────────────────────────────
+# The second product line beside the Eurorack modules: controllers that sit on
+# the desk or in the rack, run Lua scripts on the device (monome's iii) and are
+# written, patched and updated from greenhouse in the browser. Drives the
+# "Controllers" section of the home page, and each controller's own page at
+# the site root (vfmod.com/<slug>/). Adding one is a block here.
+#
+# Like modules.yml, `src` names where the manual lives and sync_manuals.py
+# copies it into the page at build time: <src>/Manual.md and <src>/images/.
+# The card's picture is committed here instead (static/products/), so a
+# controller shows even before its repo is public.
+#
+# Fields
+#   slug      URL: the page lives at /<slug>/, the card at /#<slug>.
+#   name      Display name.
+#   logo      Its icon, under static/products/.
+#   image     A picture of it, under static/products/.
+#   width, height   The picture's size in pixels (no layout shift).
+#   status    A chip such as "Coming soon"; ~ for none.
+#   size      A spec tag (size, format), first in the tags. Optional.
+#   tagline   One or two lines: what it is.
+#   tags      Short facts, shown as tags.
+#   src       "<repo>/<path>" of its manual folder, as in modules.yml.
+#   org       GitHub owner of the repo. Optional, defaults to VoltageFoundryMod.
+#   private   Optional. true = the repo isn't public yet: the manual is synced
+#             from a local checkout (../<repo>) only, and the page shows the
+#             overview alone where there is none (CI).
+#   source    Link for "Source & hardware". Optional.
+#   cta       Link label, and `url` where it goes.
+#   draft     Optional. true = hide from the site.
+
+- slug: achene
+  name: achene
+  logo: achene-logo.svg
+  image: achene.webp
+  width: 720
+  height: 449
+  status: Coming soon
+  size: 40HP · desk or rack
+  tagline: >-
+    A performance MIDI controller you program: 12 encoders, 16 RGB keys and a
+    2.42" OLED, running its scripts on the device, with clock sync for the rack.
+  tags:
+    - MIDI controller
+    - Lua scripts (iii)
+    - Clock sync
+    - Open hardware
+  src: achene/docs/manual
+  org: carlosedp
+  private: true
+  source: https://github.com/carlosedp/achene
+  cta: Patch it in greenhouse
+  url: https://greenhouse.vfmod.com/
+
+- slug: parterre
+  name: parterre
+  logo: parterre-logo.svg
+  image: parterre.svg
+  width: 704
+  height: 396
+  status: Coming soon
+  size: 16×8 · DIY
+  tagline: >-
+    A grid of 128 lit keys that runs Lua scripts on the device, or plays norns as
+    a monome-compatible grid. Built on FREEPOET's Open Grid kit today.
+  tags:
+    - Grid controller
+    - Lua scripts (iii)
+    - monome serial
+    - USB MIDI
+    - Open firmware
+  # the repo is carlosedp/parterre now; this name matches the local folder
+  # (../Open-Grid-Controller), and a clone by it follows GitHub's redirect
+  src: Open-Grid-Controller/docs/manual
+  org: carlosedp
+  source: https://github.com/carlosedp/parterre
+  cta: Patch it in greenhouse
+  url: https://greenhouse.vfmod.com/
