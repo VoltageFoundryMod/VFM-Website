@@ -31,7 +31,7 @@
 
 - name: MorphEdit
   function: Sample Editor
-  url: https://audioedit.carlosedp.com/
+  url: https://audioedit.vfmod.com/
   tagline: Reel and audio editor for Eurorack samplers.
   body: >-
     Prepare audio for the Make Noise Morphagene and other hardware samplers.
