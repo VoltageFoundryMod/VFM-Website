@@ -775,7 +775,13 @@ section > .wrap {
   border-radius: var(--radius-sm);
 }
 .module-panel img {
+  /* The width/height attributes reserve space but would fix the width once
+     max-height kicks in, squashing the panel; let the width follow the height. */
+  width: auto;
+  height: auto;
+  max-width: 100%;
   max-height: 300px;
+  object-fit: contain;
   filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.55));
 }
 

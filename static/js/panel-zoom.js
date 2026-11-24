@@ -10,8 +10,8 @@
   // pane magnifies up to the image's own resolution — past that it only blurs.
   var ZOOM_MIN = 2;
   var ZOOM_MAX = 4.5;
-  var PANE_W = 460; // pane size, trimmed to fit the viewport
-  var PANE_H_VH = 0.82;
+  var PANE_W = 300; // pane size, trimmed to fit the viewport
+  var PANE_H_VH = 0.45;
   var GAP = 20; // space between panel and pane
 
   function fine() {
@@ -66,8 +66,10 @@
       // Prefer the right of the panel; fall back to the left when it fits
       // better there.
       var left = rect.right + GAP;
-      if (left + paneW > window.innerWidth - GAP) left = rect.left - GAP - paneW;
-      pane.style.left = clamp(left, GAP, window.innerWidth - paneW - GAP) + "px";
+      if (left + paneW > window.innerWidth - GAP)
+        left = rect.left - GAP - paneW;
+      pane.style.left =
+        clamp(left, GAP, window.innerWidth - paneW - GAP) + "px";
       pane.style.top =
         clamp(
           rect.top + rect.height / 2 - paneH / 2,
@@ -100,7 +102,8 @@
       var sx = clamp(x - sliceW / 2, 0, Math.max(0, rect.width - sliceW));
       var sy = clamp(y - sliceH / 2, 0, Math.max(0, rect.height - sliceH));
 
-      pane.style.backgroundPosition = -(sx * zoom) + "px " + -(sy * zoom) + "px";
+      pane.style.backgroundPosition =
+        -(sx * zoom) + "px " + -(sy * zoom) + "px";
 
       // Marker is positioned against the panel box, not the image.
       var boxRect = box.getBoundingClientRect();
